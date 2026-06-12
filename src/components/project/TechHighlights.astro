@@ -1,0 +1,58 @@
+---
+import type { Locale, TechHighlight } from "../../data/types";
+import { useTranslations, pick } from "../../i18n/utils";
+
+interface Props {
+  highlights: TechHighlight[];
+  lang: Locale;
+}
+const { highlights, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section>
+  <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">{t("project.techHighlights")}</h2>
+
+  {/* Desktop: table */}
+  <div class="mt-5 hidden overflow-hidden rounded-xl border border-line md:block">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b border-line bg-surface text-left">
+          <th class="px-4 py-3 font-semibold">{t("project.feature")}</th>
+          <th class="px-4 py-3 font-semibold">{t("project.technical")}</th>
+          <th class="px-4 py-3 font-semibold">{t("project.benefit")}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          highlights.map((h) => (
+            <tr class="border-b border-line last:border-b-0">
+              <td class="px-4 py-3 align-top font-medium text-accent">{pick(h.feature, lang)}</td>
+              <td class="px-4 py-3 align-top text-muted">{pick(h.technical, lang)}</td>
+              <td class="px-4 py-3 align-top text-muted">{pick(h.benefit, lang)}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {/* Mobile: cards */}
+  <div class="mt-5 space-y-3 md:hidden">
+    {
+      highlights.map((h) => (
+        <div class="rounded-lg border border-line bg-surface p-4">
+          <h3 class="text-sm font-semibold text-accent">{pick(h.feature, lang)}</h3>
+          <p class="mt-2 text-xs text-muted">
+            <span class="font-medium text-fg">{t("project.technical")}: </span>
+            {pick(h.technical, lang)}
+          </p>
+          <p class="mt-1.5 text-xs text-muted">
+            <span class="font-medium text-fg">{t("project.benefit")}: </span>
+            {pick(h.benefit, lang)}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>

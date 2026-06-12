@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+
+/* Class-based dark mode (toggled on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+ * Design tokens — light is the default, .dark flips them.
+ * ------------------------------------------------------------------------- */
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --fg: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --accent: #0d9488;
+  --accent-strong: #0f766e;
+  --accent-soft: #ccfbf1;
+}
+
+.dark {
+  --bg: #0b1120;
+  --surface: #111a2e;
+  --fg: #e2e8f0;
+  --muted: #94a3b8;
+  --line: #1e293b;
+  --accent: #2dd4bf;
+  --accent-strong: #5eead4;
+  --accent-soft: rgba(45, 212, 191, 0.12);
+}
+
+/* Map tokens into Tailwind utilities: bg-bg, bg-surface, text-fg, text-muted,
+ * border-line, text-accent, bg-accent-soft, font-sans, font-display ... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk Variable", "Inter Variable", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-fg font-sans antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Headings use the display face by default */
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}

@@ -1,0 +1,16 @@
+---
+/** Kicker + title + optional description, used to open page sections */
+interface Props {
+  kicker?: string;
+  title: string;
+  description?: string;
+  align?: "left" | "center";
+}
+const { kicker, title, description, align = "left" } = Astro.props;
+---
+
+<div class:list={["max-w-2xl", align === "center" && "mx-auto text-center"]}>
+  {kicker && <p class="text-xs font-semibold uppercase tracking-widest text-accent">{kicker}</p>}
+  <h2 class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h2>
+  {description && <p class="mt-3 text-muted">{description}</p>}
+</div>

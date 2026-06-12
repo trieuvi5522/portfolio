@@ -1,0 +1,49 @@
+---
+import { Image, getImage } from "astro:assets";
+import type { GalleryImage, Locale } from "../../data/types";
+import { projectImage } from "../../lib/images";
+import { pick } from "../../i18n/utils";
+
+interface Props {
+  images: GalleryImage[];
+  lang: Locale;
+}
+const { images, lang } = Astro.props;
+
+/** Pre-render a large variant for the lightbox */
+const items = await Promise.all(
+  images.map(async (g) => {
+    const meta = projectImage(g.src);
+    const full = await getImage({ src: meta, width: Math.min(meta.width, 1600) });
+    return { ...g, meta, fullSrc: full.src };
+  })
+);
+---
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+  {
+    items.map((item) => (
+      <figure>
+        <button
+          type="button"
+          data-lightbox-trigger
+          data-full={item.fullSrc}
+          data-alt={pick(item.alt, lang)}
+          data-caption={item.caption ? pick(item.caption, lang) : undefined}
+          class="block w-full cursor-zoom-in overflow-hidden rounded-lg border border-line transition-colors hover:border-accent"
+        >
+          <Image
+            src={item.meta}
+            alt={pick(item.alt, lang)}
+            widths={[480, 768]}
+            sizes="(min-width: 640px) 50vw, 100vw"
+            class="aspect-[16/10] w-full object-cover object-top"
+          />
+        </button>
+        {item.caption && (
+          <figcaption class="mt-2 text-center text-xs text-muted">{pick(item.caption, lang)}</figcaption>
+        )}
+      </figure>
+    ))
+  }
+</div>

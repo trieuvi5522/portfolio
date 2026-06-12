@@ -1,0 +1,31 @@
+---
+import type { Locale, LocaleString } from "../../data/types";
+import { useTranslations, pick } from "../../i18n/utils";
+
+interface Props {
+  results: LocaleString[];
+  title?: LocaleString;
+  lang: Locale;
+}
+const { results, title, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="rounded-xl border border-line bg-surface p-6 sm:p-8">
+  <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">
+    {title ? pick(title, lang) : t("project.results")}
+  </h2>
+  <ul class="mt-5 space-y-3">
+    {
+      results.map((result) => (
+        <li class="flex items-start gap-3">
+          <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="m8.5 12.5 2.5 2.5 5-6" />
+          </svg>
+          <span class="leading-relaxed text-muted">{pick(result, lang)}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

@@ -1,0 +1,51 @@
+---
+import type { Locale } from "../data/types";
+import { site, whatsappUrl, mailtoUrl } from "../data/site";
+import { useTranslations, localePath } from "../i18n/utils";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+
+const links = [
+  { href: mailtoUrl, label: "Email" },
+  { href: whatsappUrl, label: "WhatsApp" },
+  { href: site.linkedinUrl, label: "LinkedIn" },
+  { href: site.facebookUrl, label: "Facebook" },
+];
+---
+
+<footer class="border-t border-line">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <a href={localePath("/", lang)} class="flex items-center gap-2.5">
+        <img src="/luca-logo.svg" alt="" class="h-7 w-7" />
+        <span class="font-display font-semibold">{site.ownerName}</span>
+      </a>
+      <p class="mt-2 text-sm text-muted">{t("footer.tagline")}</p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            target={link.href.startsWith("http") ? "_blank" : undefined}
+            rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+            class="text-sm font-medium text-muted transition-colors hover:text-accent"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="mx-auto max-w-6xl px-4 py-4 text-xs text-muted sm:px-6">
+      © {year} {site.ownerName}. {t("footer.rights")}
+    </div>
+  </div>
+</footer>

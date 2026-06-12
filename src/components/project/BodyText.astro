@@ -1,0 +1,72 @@
+---
+/**
+ * Renders the body micro-format used by project content:
+ * - lines starting with "- ", "• " or "* " become bullet list items
+ * - blank lines separate paragraphs
+ * - [label](https://url) becomes a link
+ * Ported from the Luca IoT site's RenderBody/renderInlineLinks.
+ */
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+
+const escapeHtml = (s: string) =>
+  s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+
+/** Escape, then turn [label](url) into anchors */
+const renderInline = (raw: string): string =>
+  escapeHtml(raw).replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+    (_m, label, url) =>
+      `<a href="${url}" target="_blank" rel="noreferrer" class="font-medium text-accent underline-offset-4 hover:underline">${label}</a>`
+  );
+
+type Block = { type: "p"; html: string } | { type: "ul"; items: string[] };
+
+const blocks: Block[] = [];
+let currentList: string[] = [];
+
+const flushList = () => {
+  if (currentList.length > 0) {
+    blocks.push({ type: "ul", items: currentList });
+    currentList = [];
+  }
+};
+
+for (const line of text.split("\n")) {
+  const trimmed = line.trim();
+  if (!trimmed) continue;
+  if (/^[•*-]\s/.test(trimmed)) {
+    currentList.push(renderInline(trimmed.replace(/^[•*-]\s*/, "")));
+  } else {
+    flushList();
+    blocks.push({ type: "p", html: renderInline(trimmed) });
+  }
+}
+flushList();
+---
+
+<div class:list={["space-y-3", className]}>
+  {
+    blocks.map((block) =>
+      block.type === "ul" ? (
+        <ul class="ml-1 space-y-1.5">
+          {block.items.map((item) => (
+            <li class="flex items-start gap-2 leading-relaxed text-muted">
+              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              <span set:html={item} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="leading-relaxed text-muted" set:html={block.html} />
+      )
+    )
+  }
+</div>

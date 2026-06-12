@@ -1,0 +1,65 @@
+---
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import type { Locale, ProjectSection as ProjectSectionType } from "../../data/types";
+import { projectImage } from "../../lib/images";
+import { pick } from "../../i18n/utils";
+import BodyText from "./BodyText.astro";
+import FlowCards from "./FlowCards.astro";
+import Gallery from "./Gallery.astro";
+
+interface Props {
+  section: ProjectSectionType;
+  lang: Locale;
+}
+const { section, lang } = Astro.props;
+
+const body = pick(section.body, lang);
+
+let image: { meta: ImageMetadata; fullSrc: string } | undefined;
+if (section.image) {
+  const meta = projectImage(section.image);
+  const full = await getImage({ src: meta, width: Math.min(meta.width, 1600) });
+  image = { meta, fullSrc: full.src };
+}
+---
+
+<section id={section.id} class="scroll-mt-24">
+  <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">{pick(section.title, lang)}</h2>
+
+  <div class="mt-4 space-y-6">
+    {body && <BodyText text={body} />}
+
+    {section.cards && section.cards.length > 0 && (
+      <FlowCards cards={section.cards} flowLabel={section.flowLabel} lang={lang} />
+    )}
+
+    {
+      image && (
+        <figure>
+          <button
+            type="button"
+            data-lightbox-trigger
+            data-full={image.fullSrc}
+            data-alt={section.imageAlt ? pick(section.imageAlt, lang) : ""}
+            data-caption={section.imageCaption ? pick(section.imageCaption, lang) : undefined}
+            class="block w-full cursor-zoom-in overflow-hidden rounded-lg border border-line transition-colors hover:border-accent"
+          >
+            <Image
+              src={image.meta}
+              alt={section.imageAlt ? pick(section.imageAlt, lang) : ""}
+              widths={[640, 1024, 1400]}
+              sizes="(min-width: 1024px) 896px, 100vw"
+              class="w-full object-cover"
+            />
+          </button>
+          {section.imageCaption && (
+            <figcaption class="mt-2 text-center text-xs text-muted">{pick(section.imageCaption, lang)}</figcaption>
+          )}
+        </figure>
+      )
+    }
+
+    {section.gallery && section.gallery.length > 0 && <Gallery images={section.gallery} lang={lang} />}
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+/**
+ * Shared image lightbox. Render ONCE per page.
+ * Any element with [data-lightbox-trigger] + data-full / data-alt / data-caption opens it.
+ */
+---
+
+<dialog
+  id="lightbox"
+  class="m-auto w-[min(96vw,1280px)] rounded-xl border border-line bg-surface p-0 backdrop:bg-black/70"
+>
+  <div class="relative">
+    <button
+      type="button"
+      data-lightbox-close
+      aria-label="Close"
+      class="absolute right-3 top-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-md border border-line bg-surface/90 text-muted transition-colors hover:text-fg"
+    >
+      <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+    <img data-lightbox-img src="" alt="" class="max-h-[82vh] w-full rounded-t-xl object-contain" />
+    <p data-lightbox-caption class="px-4 py-3 text-center text-sm text-muted"></p>
+  </div>
+</dialog>
+
+<script>
+  function initLightbox() {
+    const dialog = document.getElementById("lightbox");
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    const img = dialog.querySelector<HTMLImageElement>("[data-lightbox-img]");
+    const caption = dialog.querySelector<HTMLElement>("[data-lightbox-caption]");
+    if (!img || !caption) return;
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Element;
+
+      const trigger = target.closest<HTMLElement>("[data-lightbox-trigger]");
+      if (trigger?.dataset.full) {
+        img.src = trigger.dataset.full;
+        img.alt = trigger.dataset.alt ?? "";
+        caption.textContent = trigger.dataset.caption ?? "";
+        caption.hidden = !trigger.dataset.caption;
+        dialog.showModal();
+        return;
+      }
+
+      if (target.closest("[data-lightbox-close]")) {
+        dialog.close();
+      }
+    });
+
+    // Click on backdrop closes
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+  }
+  initLightbox();
+</script>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 90" fill="none">
+  <path
+    d="M38 64C27 64 18 55 18 45C18 36 24 28 33 26C36 16 45 10 56 10C64 10 72 13 77 19C82 15 88 13 95 13C108 13 119 22 121 34C125 32 129 31 133 31C145 31 154 40 154 51"
+    stroke="#3C3C3D"
+    stroke-width="4.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <text
+    x="52"
+    y="67"
+    fill="#3C3C3D"
+    font-family="'Times New Roman', Georgia, serif"
+    font-size="47"
+    letter-spacing="1.5"
+  >
+    LUCA
+  </text>
+</svg>
