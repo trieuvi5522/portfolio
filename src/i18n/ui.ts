@@ -10,9 +10,8 @@ export const languageNames: Record<Locale, string> = {
 
 const en = {
   /* Nav */
-  "nav.home": "Home",
+  "nav.home": "About",
   "nav.projects": "Projects",
-  "nav.about": "About",
   "nav.contact": "Contact",
   "nav.menu": "Menu",
 
@@ -97,9 +96,8 @@ const en = {
 
 const vi: Record<keyof typeof en, string> = {
   /* Nav */
-  "nav.home": "Trang chủ",
+  "nav.home": "Giới thiệu",
   "nav.projects": "Dự án",
-  "nav.about": "Giới thiệu",
   "nav.contact": "Liên hệ",
   "nav.menu": "Menu",
 
