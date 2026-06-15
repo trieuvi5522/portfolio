@@ -1,12 +1,10 @@
 ---
 import type { Locale } from "../../data/types";
-import { featuredProjects } from "../../data/projects";
-import { whatsappUrl, mailtoUrl } from "../../data/site";
 import { useTranslations, localePath } from "../../i18n/utils";
 import { aboutFocus, aboutSkills, aboutProcess } from "../../i18n/ui";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProjectCard from "../ProjectCard.astro";
 import SectionHeading from "../SectionHeading.astro";
+import ContactSection from "../ContactSection.astro";
 
 interface Props {
   lang: Locale;
@@ -17,6 +15,22 @@ const t = useTranslations(lang);
 const focus = aboutFocus[lang];
 const skills = aboutSkills[lang];
 const process = aboutProcess[lang];
+
+// Lucide icon paths paired 1:1 with the aboutFocus items (same order in every locale)
+const focusIcons = [
+  // Industrial IoT Architecture & Deployment — factory
+  '<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/>',
+  // Multi-Protocol Interoperability — interconnected nodes
+  '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+  // Cloud IoT Infrastructure & Ecosystems — cloud
+  '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  // Real-time Operational Visibility & Automation — activity pulse
+  '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  // Smart Home Design & Intelligent Integration — house
+  '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  // Full-Lifecycle Project Delivery & Maintenance — wrench
+  '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+];
 ---
 
 <BaseLayout lang={lang} title={t("home.kicker")} description={t("about.intro1")}>
@@ -43,7 +57,7 @@ const process = aboutProcess[lang];
           </svg>
         </a>
         <a
-          href={localePath("/contact", lang)}
+          href="#contact"
           class="inline-flex items-center rounded-md border border-line px-5 py-2.5 text-sm font-semibold transition-colors hover:border-accent hover:text-accent"
         >
           {t("home.contactMe")}
@@ -56,15 +70,14 @@ const process = aboutProcess[lang];
     {/* Focus areas */}
     <section>
       <SectionHeading title={t("about.focusTitle")} />
-      <ul class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {
-          focus.map((item) => (
-            <li class="flex items-start gap-3 rounded-lg border border-line bg-surface p-4">
-              <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="m8.5 12.5 2.5 2.5 5-6" />
-              </svg>
-              <span class="text-sm font-medium leading-relaxed">{item}</span>
+          focus.map((item, i) => (
+            <li class="flex h-full flex-col items-center gap-4 rounded-xl border border-line bg-surface p-6 text-center transition-colors hover:border-accent">
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-accent-soft text-accent">
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={focusIcons[i]} />
+              </span>
+              <span class="text-sm font-semibold leading-relaxed">{item}</span>
             </li>
           ))
         }
@@ -115,52 +128,10 @@ const process = aboutProcess[lang];
     </section>
   </div>
 
-  {/* Featured projects */}
-  <section class="border-t border-line bg-surface">
-    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-      <SectionHeading kicker={t("projects.kicker")} title={t("home.featuredTitle")} description={t("home.featuredDesc")} />
-
-      <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featuredProjects.map((project) => <ProjectCard project={project} lang={lang} />)}
-      </div>
-
-      <div class="mt-10 flex justify-center">
-        <a
-          href={localePath("/projects", lang)}
-          class="inline-flex items-center gap-2 rounded-md border border-line px-6 py-2.5 text-sm font-semibold transition-colors hover:border-accent hover:text-accent"
-        >
-          {t("home.allProjects")}
-          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M13 6l6 6-6 6"></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  {/* Contact strip */}
+  {/* Contact */}
   <section class="border-t border-line">
-    <div class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-4 py-14 sm:px-6 md:flex-row md:items-center md:justify-between">
-      <div>
-        <h2 class="text-2xl font-semibold tracking-tight">{t("home.ctaTitle")}</h2>
-        <p class="mt-2 max-w-xl text-muted">{t("home.ctaDesc")}</p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a
-          href={mailtoUrl}
-          class="inline-flex items-center rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 dark:text-slate-900"
-        >
-          Email
-        </a>
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noreferrer"
-          class="inline-flex items-center rounded-md border border-line px-5 py-2.5 text-sm font-semibold transition-colors hover:border-accent hover:text-accent"
-        >
-          WhatsApp
-        </a>
-      </div>
+    <div class="mx-auto max-w-4xl px-4 py-14 sm:px-6 sm:py-16">
+      <ContactSection lang={lang} />
     </div>
   </section>
 </BaseLayout>

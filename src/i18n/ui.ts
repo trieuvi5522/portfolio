@@ -12,6 +12,7 @@ const en = {
   /* Nav */
   "nav.home": "About",
   "nav.projects": "Projects",
+  "nav.certificates": "Certificates",
   "nav.contact": "Contact",
   "nav.menu": "Menu",
 
@@ -37,6 +38,15 @@ const en = {
   "projects.desc": "Production IoT systems I designed, built, and deployed for clients in Vietnam, Denmark, and Germany.",
   "projects.readCase": "Read case study",
   "projects.backToProjects": "Back to projects",
+
+  /* Certificates */
+  "cert.kicker": "Credentials",
+  "cert.title": "Certificates",
+  "cert.desc": "Professional certifications in the IoT protocols and tools I work with every day.",
+  "cert.issued": "Issued",
+  "cert.id": "Credential ID",
+  "cert.view": "View certificate",
+  "cert.verify": "Verify",
 
   /* Project detail */
   "project.results": "Results",
@@ -98,6 +108,7 @@ const vi: Record<keyof typeof en, string> = {
   /* Nav */
   "nav.home": "Giới thiệu",
   "nav.projects": "Dự án",
+  "nav.certificates": "Chứng chỉ",
   "nav.contact": "Liên hệ",
   "nav.menu": "Menu",
 
@@ -123,6 +134,15 @@ const vi: Record<keyof typeof en, string> = {
   "projects.desc": "Các hệ thống IoT tôi thiết kế, xây dựng và triển khai cho khách hàng tại Việt Nam, Đan Mạch và Đức.",
   "projects.readCase": "Xem chi tiết",
   "projects.backToProjects": "Quay lại danh sách dự án",
+
+  /* Certificates */
+  "cert.kicker": "Chứng chỉ",
+  "cert.title": "Chứng chỉ",
+  "cert.desc": "Các chứng chỉ chuyên môn về giao thức và công cụ IoT tôi làm việc hằng ngày.",
+  "cert.issued": "Cấp ngày",
+  "cert.id": "Mã chứng chỉ",
+  "cert.view": "Xem chứng chỉ",
+  "cert.verify": "Xác minh",
 
   /* Project detail */
   "project.results": "Kết quả",

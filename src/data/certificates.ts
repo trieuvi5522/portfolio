@@ -1,0 +1,92 @@
+import { ls, type LocaleString } from "./types";
+
+export interface Certificate {
+  /** Credential name */
+  title: LocaleString;
+  /** Issuing organization, e.g. "Node-RED Academy · FlowFuse" */
+  issuer: string;
+  /** ISO date the credential was issued */
+  date: string;
+  /** Credential / certificate number, if any */
+  credentialId?: string;
+  /** Public path to the certificate PDF (served from /public) */
+  file?: string;
+  /** External verification URL, if the issuer provides one */
+  verifyUrl?: string;
+}
+
+export interface CertificateGroup {
+  id: string;
+  /** Category name shown as the section heading */
+  name: LocaleString;
+  /** Short blurb describing the category */
+  blurb?: LocaleString;
+  certificates: Certificate[];
+}
+
+/** Grouped credentials shown on the Certificates page. Add new groups/entries here. */
+export const certificateGroups: CertificateGroup[] = [
+  {
+    id: "node-red",
+    name: ls("Node-RED", "Node-RED"),
+    blurb: ls(
+      "Low-code flow programming for event-driven applications and IoT data pipelines.",
+      "Lập trình luồng low-code cho ứng dụng hướng sự kiện và pipeline dữ liệu IoT."
+    ),
+    certificates: [
+      {
+        title: ls("Node-RED Advanced", "Node-RED Advanced"),
+        issuer: "Node-RED Academy · FlowFuse",
+        date: "2026-03-03",
+        credentialId: "69a715b90cbca6264e0835ee",
+        file: "/certificates/node-red-advanced.pdf",
+        verifyUrl: "https://mycourse.app/kDsQJiVhbz0V4zitb",
+      },
+      {
+        title: ls("Node-RED Fundamentals", "Node-RED Fundamentals"),
+        issuer: "Node-RED Academy · FlowFuse",
+        date: "2025-11-18",
+        credentialId: "691c1b8cc240a1f5ed00bc76",
+        file: "/certificates/node-red-fundamentals.pdf",
+        verifyUrl: "https://mycourse.app/SGkvtT6UySPe5mU3O",
+      },
+    ],
+  },
+  {
+    id: "mqtt",
+    name: ls("MQTT", "MQTT"),
+    blurb: ls(
+      "The lightweight publish/subscribe messaging protocol at the core of IoT connectivity.",
+      "Giao thức nhắn tin publish/subscribe nhẹ, nền tảng của kết nối IoT."
+    ),
+    certificates: [
+      {
+        title: ls("HiveMQ Certified MQTT Associate", "HiveMQ Certified MQTT Associate"),
+        issuer: "HiveMQ University",
+        date: "2026-06-14",
+        credentialId: "5evxig8jcsna",
+        file: "/certificates/hivemq-mqtt-associate.pdf",
+        verifyUrl: "https://verify.skilljar.com/c/5evxig8jcsna",
+      },
+    ],
+  },
+  {
+    id: "automation",
+    name: ls("Automation", "Tự động hóa"),
+    blurb: ls(
+      "Industrial automation, PLC programming, and factory automation systems.",
+      "Tự động hóa công nghiệp, lập trình PLC và hệ thống tự động hóa nhà máy."
+    ),
+    certificates: [
+      {
+        title: ls(
+          "Mitsubishi Electric Cup Automation 2024 — Top 20",
+          "Mitsubishi Electric Cup Automation 2024 — Top 20"
+        ),
+        issuer: "Mitsubishi Electric Vietnam",
+        date: "2024",
+        file: "/certificates/meca-2024.pdf",
+      },
+    ],
+  },
+];

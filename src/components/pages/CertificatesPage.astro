@@ -1,0 +1,37 @@
+---
+import type { Locale } from "../../data/types";
+import { certificateGroups } from "../../data/certificates";
+import { useTranslations, pick } from "../../i18n/utils";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../SectionHeading.astro";
+import CertificateCard from "../CertificateCard.astro";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={t("cert.title")} description={t("cert.desc")}>
+  <section class="border-b border-line bg-surface">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+      <SectionHeading kicker={t("cert.kicker")} title={t("cert.title")} description={t("cert.desc")} />
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl space-y-16 px-4 py-12 sm:px-6 sm:py-16">
+    {
+      certificateGroups.map((group) => (
+        <section>
+          <SectionHeading title={pick(group.name, lang)} description={group.blurb ? pick(group.blurb, lang) : undefined} />
+          <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {group.certificates.map((cert) => (
+              <CertificateCard cert={cert} lang={lang} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

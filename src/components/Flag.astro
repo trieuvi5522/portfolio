@@ -1,0 +1,39 @@
+---
+/** Small inline SVG country flag (renders consistently, incl. on Windows where
+ * regional-indicator emoji fall back to letters). Keyed by ISO 3166-1 alpha-2. */
+interface Props {
+  code: string;
+  class?: string;
+}
+const { code, class: className } = Astro.props;
+const cls = ["inline-block shrink-0 rounded-[2px] ring-1 ring-black/10", className]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  code === "vn" && (
+    <svg class={cls} viewBox="0 0 20 14" width="20" height="14" role="img" aria-label="Vietnam">
+      <rect width="20" height="14" fill="#DA251D" />
+      <path d="M10 1.5 11.23 5.3 15.23 5.3 12 7.65 13.23 11.45 10 9.1 6.77 11.45 8 7.65 4.77 5.3 8.77 5.3Z" fill="#FF0" />
+    </svg>
+  )
+}
+{
+  code === "dk" && (
+    <svg class={cls} viewBox="0 0 20 14" width="20" height="14" role="img" aria-label="Denmark">
+      <rect width="20" height="14" fill="#C8102E" />
+      <rect x="6" width="2.4" height="14" fill="#fff" />
+      <rect y="5.8" width="20" height="2.4" fill="#fff" />
+    </svg>
+  )
+}
+{
+  code === "de" && (
+    <svg class={cls} viewBox="0 0 20 14" width="20" height="14" role="img" aria-label="Germany">
+      <rect width="20" height="14" fill="#FFCE00" />
+      <rect width="20" height="9.333" fill="#DD0000" />
+      <rect width="20" height="4.667" fill="#000" />
+    </svg>
+  )
+}

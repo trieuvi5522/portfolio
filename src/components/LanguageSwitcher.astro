@@ -19,6 +19,7 @@ const options: { code: Locale; label: string }[] = [
     options.map((opt) => (
       <a
         href={switchLocalePath(pathname, opt.code)}
+        data-lang-switch
         aria-current={opt.code === lang ? "true" : undefined}
         class:list={[
           "px-2.5 py-1.5 transition-colors",
@@ -32,3 +33,29 @@ const options: { code: Locale; label: string }[] = [
     ))
   }
 </div>
+
+<script>
+  // Keep the reading position when switching language instead of jumping to top.
+  (() => {
+    const KEY = "langSwitchScrollY";
+
+    document.querySelectorAll("[data-lang-switch]").forEach((el) => {
+      el.addEventListener("click", () => {
+        sessionStorage.setItem(KEY, String(window.scrollY));
+      });
+    });
+
+    const saved = sessionStorage.getItem(KEY);
+    if (saved !== null) {
+      sessionStorage.removeItem(KEY);
+      const y = parseInt(saved, 10);
+      if (!Number.isNaN(y)) {
+        const html = document.documentElement;
+        const prev = html.style.scrollBehavior;
+        html.style.scrollBehavior = "auto"; // avoid the smooth-scroll animation
+        window.scrollTo(0, y);
+        html.style.scrollBehavior = prev;
+      }
+    }
+  })();
+</script>

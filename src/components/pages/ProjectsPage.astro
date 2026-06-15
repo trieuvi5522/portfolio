@@ -3,7 +3,7 @@ import type { Locale } from "../../data/types";
 import { projects } from "../../data/projects";
 import { useTranslations } from "../../i18n/utils";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ProjectCard from "../ProjectCard.astro";
+import ProjectRow from "../ProjectRow.astro";
 import SectionHeading from "../SectionHeading.astro";
 
 interface Props {
@@ -40,9 +40,9 @@ const stats = [
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => <ProjectCard project={project} lang={lang} />)}
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+    <div class="space-y-16 sm:space-y-24">
+      {projects.map((project, i) => <ProjectRow project={project} lang={lang} index={i + 1} />)}
     </div>
   </section>
 </BaseLayout>
