@@ -9,6 +9,8 @@ export interface Certificate {
   date: string;
   /** Credential / certificate number, if any */
   credentialId?: string;
+  /** Preview image key relative to src/assets/certificates (e.g. "node-red-advanced.png") */
+  image?: string;
   /** Public path to the certificate PDF (served from /public) */
   file?: string;
   /** External verification URL, if the issuer provides one */
@@ -39,6 +41,7 @@ export const certificateGroups: CertificateGroup[] = [
         issuer: "Node-RED Academy · FlowFuse",
         date: "2026-03-03",
         credentialId: "69a715b90cbca6264e0835ee",
+        image: "node-red-advanced.png",
         file: "/certificates/node-red-advanced.pdf",
         verifyUrl: "https://mycourse.app/kDsQJiVhbz0V4zitb",
       },
@@ -47,6 +50,7 @@ export const certificateGroups: CertificateGroup[] = [
         issuer: "Node-RED Academy · FlowFuse",
         date: "2025-11-18",
         credentialId: "691c1b8cc240a1f5ed00bc76",
+        image: "node-red-fundamentals.png",
         file: "/certificates/node-red-fundamentals.pdf",
         verifyUrl: "https://mycourse.app/SGkvtT6UySPe5mU3O",
       },
@@ -65,6 +69,7 @@ export const certificateGroups: CertificateGroup[] = [
         issuer: "HiveMQ University",
         date: "2026-06-14",
         credentialId: "5evxig8jcsna",
+        image: "hivemq-mqtt-associate.png",
         file: "/certificates/hivemq-mqtt-associate.pdf",
         verifyUrl: "https://verify.skilljar.com/c/5evxig8jcsna",
       },
@@ -85,6 +90,7 @@ export const certificateGroups: CertificateGroup[] = [
         ),
         issuer: "Mitsubishi Electric Vietnam",
         date: "2024",
+        image: "meca-2024.jpg",
         file: "/certificates/meca-2024.pdf",
       },
     ],

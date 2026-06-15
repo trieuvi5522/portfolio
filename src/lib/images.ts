@@ -21,3 +21,21 @@ export function projectImage(key: string): ImageMetadata {
   }
   return mod.default;
 }
+
+/** Same idea for certificate preview images under src/assets/certificates. */
+const certImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/certificates/**/*.{jpg,jpeg,png,webp}",
+  { eager: true }
+);
+
+export function certImage(key: string): ImageMetadata {
+  const path = `/src/assets/certificates/${key}`;
+  const mod = certImages[path];
+  if (!mod) {
+    throw new Error(
+      `[images] Missing certificate image "${key}" (looked for ${path}). ` +
+        `Available: ${Object.keys(certImages).join(", ")}`
+    );
+  }
+  return mod.default;
+}
