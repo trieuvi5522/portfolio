@@ -1,8 +1,8 @@
-// Dev utility: build the favicon set from the LUCA IoT wordmark.
-// Trims the logo's whitespace and centers it on a white square so it isn't
+// Dev utility: build the favicon set from the LUCA IoT mark.
+// Trims the source's whitespace and centers it on a white square so it isn't
 // stretched, then writes the PNG sizes + a multi-size favicon.ico.
 //
-// Regenerate after changing src/assets/brand/luca-iot-logo.png:
+// Regenerate after changing the source below:
 //   npm i --no-save png-to-ico   (sharp ships with Astro)
 //   node scripts/gen-favicon.mjs
 import sharp from "sharp";
@@ -12,7 +12,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = path.join(root, "src/assets/brand/luca-iot-logo.png");
+const SRC = path.join(root, "src/assets/brand/luca-iot-icon.png");
 const PUB = path.join(root, "public");
 
 // Render the wordmark centered on a white square of the given size.
