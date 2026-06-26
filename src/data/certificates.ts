@@ -65,6 +65,24 @@ export const certificateGroups: CertificateGroup[] = [
     ),
     certificates: [
       {
+        title: ls("HiveMQ Certified MQTT v3.1.1 Expert", "HiveMQ Certified MQTT v3.1.1 Expert"),
+        issuer: "HiveMQ University",
+        date: "2026-06-19",
+        credentialId: "cdj73cjzg9t9",
+        image: "hivemq-mqtt-expert.png",
+        file: "/certificates/hivemq-mqtt-expert.pdf",
+        verifyUrl: "https://verify.skilljar.com/c/cdj73cjzg9t9",
+      },
+      {
+        title: ls("HiveMQ Certified MQTT v3.1.1 Professional", "HiveMQ Certified MQTT v3.1.1 Professional"),
+        issuer: "HiveMQ University",
+        date: "2026-06-19",
+        credentialId: "f3vtnsw9sb7v",
+        image: "hivemq-mqtt-professional.png",
+        file: "/certificates/hivemq-mqtt-professional.pdf",
+        verifyUrl: "https://verify.skilljar.com/c/f3vtnsw9sb7v",
+      },
+      {
         title: ls("HiveMQ Certified MQTT Associate", "HiveMQ Certified MQTT Associate"),
         issuer: "HiveMQ University",
         date: "2026-06-14",

@@ -22,6 +22,8 @@ const jobs = [
   ["public/certificates/node-red-advanced.pdf", "src/assets/certificates/node-red-advanced.png"],
   ["public/certificates/node-red-fundamentals.pdf", "src/assets/certificates/node-red-fundamentals.png"],
   ["public/certificates/hivemq-mqtt-associate.pdf", "src/assets/certificates/hivemq-mqtt-associate.png"],
+  ["public/certificates/hivemq-mqtt-professional.pdf", "src/assets/certificates/hivemq-mqtt-professional.png"],
+  ["public/certificates/hivemq-mqtt-expert.pdf", "src/assets/certificates/hivemq-mqtt-expert.png"],
   // MECA is a scanned photo — JPEG keeps it small.
   ["public/certificates/meca-2024.pdf", "src/assets/certificates/meca-2024.jpg"],
 ];
