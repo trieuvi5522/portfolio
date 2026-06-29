@@ -113,4 +113,22 @@ export const certificateGroups: CertificateGroup[] = [
       },
     ],
   },
+  {
+    id: "english",
+    name: ls("English", "Tiếng Anh"),
+    blurb: ls(
+      "English language proficiency for working in international engineering and IoT teams.",
+      "Năng lực tiếng Anh để làm việc trong các nhóm kỹ thuật và IoT quốc tế."
+    ),
+    certificates: [
+      {
+        title: ls("TOEIC Listening & Reading — 785", "TOEIC Listening & Reading — 785"),
+        issuer: "ETS · IIG Vietnam",
+        date: "2026-06-12",
+        credentialId: "0792020227733",
+        image: "toeic-2026.jpg",
+        file: "/certificates/toeic-2026.jpg",
+      },
+    ],
+  },
 ];
