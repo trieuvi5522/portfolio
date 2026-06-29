@@ -122,7 +122,7 @@ export const certificateGroups: CertificateGroup[] = [
     ),
     certificates: [
       {
-        title: ls("TOEIC Listening & Reading — 785", "TOEIC Listening & Reading — 785"),
+        title: ls("TOEIC Listening & Reading — 785/990", "TOEIC Listening & Reading — 785/990"),
         issuer: "ETS · IIG Vietnam",
         date: "2026-06-12",
         credentialId: "0792020227733",
