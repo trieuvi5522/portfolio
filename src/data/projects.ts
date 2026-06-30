@@ -2,6 +2,233 @@ import { ls, type Project } from "./types";
 
 const projectEntries: Project[] = [
   {
+    id: "luca-iot-cloud",
+    slug: "luca-iot-cloud",
+    title: ls(
+      "Luca IoT Cloud — Self-Service Hosting Platform",
+      "Luca IoT Cloud — Nền tảng hosting tự phục vụ"
+    ),
+    excerpt: ls(
+      "A multi-tenant SaaS platform that hosts managed Node-RED, InfluxDB, and Grafana instances. Users spin up an isolated, ready-to-use instance in minutes — with automated backups, one-click upgrades, and per-plan resources — backed by a bilingual storefront.",
+      "Nền tảng SaaS đa người dùng cung cấp dịch vụ hosting Node-RED, InfluxDB và Grafana được quản lý. Người dùng khởi tạo một instance độc lập, sẵn sàng sử dụng chỉ trong vài phút — kèm sao lưu tự động, nâng cấp một chạm và tài nguyên theo gói — cùng một website bán hàng song ngữ."
+    ),
+    industry: ls(
+      "SaaS / Cloud Hosting / Platform Engineering",
+      "SaaS / Cloud Hosting / Kỹ thuật nền tảng"
+    ),
+    location: ls("Vietnam / Global", "Việt Nam / Toàn cầu"),
+    publishedAt: "2026-06-30",
+    tech: [
+      "Next.js",
+      "Fastify",
+      "TypeScript",
+      "Supabase",
+      "Docker",
+      "Cloudflare",
+      "Tailscale",
+      "React",
+    ],
+    featured: true,
+    cover: "luca-iot-cloud/home-hero.jpg",
+    resultsTitle: ls("What the Platform Delivers", "Giá trị nền tảng mang lại"),
+    results: [
+      ls(
+        "Self-service provisioning — a user picks a service and plan, and an isolated instance is live in a couple of minutes, no manual setup.",
+        "Khởi tạo tự phục vụ — người dùng chọn dịch vụ và gói, một instance độc lập sẵn sàng chỉ sau vài phút, không cần thao tác thủ công."
+      ),
+      ls(
+        "Reliable by default — automated daily backups and safe one-click upgrades that auto-roll back on failure.",
+        "Tin cậy mặc định — sao lưu tự động hằng ngày và nâng cấp một chạm an toàn, tự động khôi phục khi gặp lỗi."
+      ),
+      ls(
+        "Strong tenant isolation — every instance runs in its own container with per-plan CPU, RAM, and disk limits.",
+        "Cô lập người dùng chặt chẽ — mỗi instance chạy trong container riêng với giới hạn CPU, RAM và ổ đĩa theo gói."
+      ),
+      ls(
+        "Bilingual storefront with transparent, public pricing for every hosting plan.",
+        "Website bán hàng song ngữ với bảng giá công khai, minh bạch cho mọi gói hosting."
+      ),
+      ls(
+        "Running in production at lucaiot.com (storefront) and app.lucaiot.com (control panel).",
+        "Đang vận hành thực tế tại lucaiot.com (website) và app.lucaiot.com (bảng điều khiển)."
+      ),
+    ],
+    sections: [
+      {
+        id: "overview",
+        title: ls("Overview", "Tổng quan"),
+        body: ls(
+          "Luca IoT Cloud is a managed-hosting product I have been building from April 2025 to the present. It lets engineers and teams run the IoT tools they rely on — Node-RED, InfluxDB, and Grafana — without managing servers, Docker, TLS, or backups themselves.\n\nThe product has two halves working together:\n- A control plane and node agent (the platform) that provisions and operates each customer instance.\n- A bilingual marketing storefront where visitors browse services, compare plans, and get started.",
+          "Luca IoT Cloud là một sản phẩm hosting được quản lý mà tôi xây dựng từ tháng 4/2025 đến nay. Nó giúp các kỹ sư và đội nhóm vận hành các công cụ IoT quen thuộc — Node-RED, InfluxDB và Grafana — mà không phải tự quản lý máy chủ, Docker, TLS hay sao lưu.\n\nSản phẩm gồm hai phần phối hợp với nhau:\n- Control plane và node agent (nền tảng) chịu trách nhiệm khởi tạo và vận hành từng instance của khách hàng.\n- Website bán hàng song ngữ nơi khách tham khảo dịch vụ, so sánh gói và bắt đầu sử dụng."
+        ),
+      },
+      {
+        id: "architecture",
+        title: ls("Architecture", "Kiến trúc"),
+        flowLabel: ls(
+          "Cloudflare edge -> Tunnel -> Traefik -> Service instance",
+          "Cloudflare edge -> Tunnel -> Traefik -> Service instance"
+        ),
+        body: ls(
+          "A central control plane (Next.js) handles authentication, the dashboard, and the business logic. It talks to a lightweight node agent (Fastify) over a private network; the agent is the only component that touches Docker, and it is never exposed to the public internet.\n\nEach customer instance runs as its own Docker Compose stack behind a reverse proxy, reachable over an outbound-only Cloudflare Tunnel — so the host needs no open inbound ports. Platform state, accounts, and backup metadata live in Supabase (Postgres), and backup archives are stored in object storage.",
+          "Một control plane trung tâm (Next.js) xử lý xác thực, dashboard và toàn bộ logic nghiệp vụ. Nó giao tiếp với một node agent gọn nhẹ (Fastify) qua mạng riêng; agent là thành phần duy nhất chạm tới Docker và không bao giờ lộ ra Internet công cộng.\n\nMỗi instance của khách chạy như một stack Docker Compose riêng phía sau reverse proxy, truy cập qua Cloudflare Tunnel chỉ-đi-ra — nhờ đó máy chủ không cần mở cổng vào. Trạng thái nền tảng, tài khoản và metadata sao lưu được lưu trong Supabase (Postgres), còn các bản sao lưu được lưu trên object storage."
+        ),
+        cards: [
+          {
+            title: ls("Control plane", "Control plane"),
+            body: ls(
+              "Next.js app for auth, dashboard, and orchestration logic; never trusts the client — every action is re-checked server-side.",
+              "Ứng dụng Next.js cho xác thực, dashboard và logic điều phối; không tin client — mọi thao tác đều được kiểm tra lại phía máy chủ."
+            ),
+          },
+          {
+            title: ls("Node agent", "Node agent"),
+            body: ls(
+              "Fastify service on each host, reachable only on a private network; the single component that drives Docker.",
+              "Dịch vụ Fastify trên mỗi máy chủ, chỉ truy cập được trong mạng riêng; là thành phần duy nhất điều khiển Docker."
+            ),
+          },
+          {
+            title: ls("Provisioning", "Khởi tạo"),
+            body: ls(
+              "Renders a Docker Compose stack per instance with the right image, resource limits, and a branded login gate.",
+              "Sinh ra một stack Docker Compose cho mỗi instance với image phù hợp, giới hạn tài nguyên và cổng đăng nhập gắn thương hiệu."
+            ),
+          },
+          {
+            title: ls("Data & storage", "Dữ liệu & lưu trữ"),
+            body: ls(
+              "Supabase (Postgres) for accounts and instance state; object storage for backup archives.",
+              "Supabase (Postgres) cho tài khoản và trạng thái instance; object storage cho các bản sao lưu."
+            ),
+          },
+        ],
+      },
+      {
+        id: "provisioning",
+        title: ls("Self-Service Provisioning", "Khởi tạo tự phục vụ"),
+        body: ls(
+          "The storefront offers managed hosting for three services, each with public plan tiers and clear resource limits:\n- Node-RED — Starter, Hobby, Start Up, Unicorn (1 vCPU / 1 GB up to 4 vCPU / 8 GB).\n- InfluxDB — time-series storage tuned for high write throughput.\n- Grafana — dashboards with a per-plan plugin allowance.\n\nWhen a user creates an instance, the platform renders a dedicated container stack, applies the plan's CPU/RAM/disk limits, and fronts it with a branded login gate so customers see a consistent Luca IoT experience instead of each tool's default login.",
+          "Website cung cấp dịch vụ hosting được quản lý cho ba sản phẩm, mỗi sản phẩm có các gói công khai và giới hạn tài nguyên rõ ràng:\n- Node-RED — Starter, Hobby, Start Up, Unicorn (từ 1 vCPU / 1 GB đến 4 vCPU / 8 GB).\n- InfluxDB — lưu trữ time-series tối ưu cho lưu lượng ghi cao.\n- Grafana — dashboard với số lượng plugin theo gói.\n\nKhi người dùng tạo một instance, nền tảng sinh ra một stack container riêng, áp giới hạn CPU/RAM/ổ đĩa theo gói, và đặt phía trước một cổng đăng nhập gắn thương hiệu để khách có trải nghiệm Luca IoT nhất quán thay vì màn hình đăng nhập mặc định của từng công cụ."
+        ),
+        gallery: [
+          {
+            src: "luca-iot-cloud/services.jpg",
+            alt: ls(
+              "Luca IoT Cloud services page listing Node-RED, InfluxDB and Grafana hosting",
+              "Trang dịch vụ Luca IoT Cloud liệt kê hosting Node-RED, InfluxDB và Grafana"
+            ),
+            caption: ls(
+              "Service catalog: managed Node-RED, InfluxDB, and Grafana hosting.",
+              "Danh mục dịch vụ: hosting Node-RED, InfluxDB và Grafana được quản lý."
+            ),
+          },
+          {
+            src: "luca-iot-cloud/pricing.jpg",
+            alt: ls(
+              "Node-RED hosting pricing plans from Starter to Unicorn",
+              "Bảng giá hosting Node-RED từ Starter đến Unicorn"
+            ),
+            caption: ls(
+              "Transparent public pricing with per-plan vCPU, RAM, and disk.",
+              "Bảng giá công khai, minh bạch với vCPU, RAM và ổ đĩa theo từng gói."
+            ),
+          },
+        ],
+      },
+      {
+        id: "reliability-security",
+        title: ls("Reliability & Security", "Độ tin cậy & Bảo mật"),
+        body: ls(
+          "Reliability and safety are built into day-to-day operations:\n- Automated backups archive each instance's data to object storage on a daily schedule, keeping a rolling set of recent restore points.\n- Safe upgrades take a pre-upgrade backup, apply the new version, and automatically roll back if the instance fails to come up healthy — with an email alert to the operator and owner.\n- Tenant isolation keeps every instance in its own container with strict resource limits.\n- Defense in depth: server-side role checks on every mutation, database row-level security so users only ever see their own resources, and encrypted secrets at rest.",
+          "Độ tin cậy và an toàn được tích hợp vào vận hành hằng ngày:\n- Sao lưu tự động lưu dữ liệu mỗi instance lên object storage theo lịch hằng ngày, giữ một tập các điểm khôi phục gần nhất.\n- Nâng cấp an toàn sẽ sao lưu trước khi nâng cấp, áp phiên bản mới, và tự động khôi phục nếu instance không khởi động khỏe mạnh — kèm email cảnh báo cho người vận hành và chủ sở hữu.\n- Cô lập người dùng giữ mỗi instance trong container riêng với giới hạn tài nguyên chặt chẽ.\n- Phòng thủ nhiều lớp: kiểm tra vai trò phía máy chủ ở mọi thao tác thay đổi, bảo mật theo hàng (row-level security) để người dùng chỉ thấy tài nguyên của mình, và mã hóa bí mật khi lưu trữ."
+        ),
+      },
+      {
+        id: "storefront",
+        title: ls("Bilingual Storefront", "Website bán hàng song ngữ"),
+        body: ls(
+          "The public website is a fast single-page app in English and Vietnamese. It presents the hosting catalog, transparent pricing, IoT consulting services, and real case studies, with a clear path from browsing a plan to getting started.\n\nLive: [lucaiot.com](https://lucaiot.com). The customer control panel lives at app.lucaiot.com (login-gated).",
+          "Website công khai là một ứng dụng single-page nhanh, hỗ trợ tiếng Anh và tiếng Việt. Nó trình bày danh mục hosting, bảng giá minh bạch, dịch vụ tư vấn IoT và các case study thực tế, với lộ trình rõ ràng từ xem gói đến bắt đầu sử dụng.\n\nXem tại: [lucaiot.com](https://lucaiot.com). Bảng điều khiển dành cho khách hàng nằm tại app.lucaiot.com (yêu cầu đăng nhập)."
+        ),
+        image: "luca-iot-cloud/home-hero.jpg",
+        imageAlt: ls(
+          "Luca IoT Cloud marketing homepage hero",
+          "Trang chủ giới thiệu của Luca IoT Cloud"
+        ),
+        imageCaption: ls(
+          "The lucaiot.com storefront — bilingual, with managed hosting front and center.",
+          "Website lucaiot.com — song ngữ, đặt dịch vụ hosting được quản lý làm trọng tâm."
+        ),
+      },
+    ],
+    techHighlights: [
+      {
+        feature: ls("Instance provisioning", "Khởi tạo instance"),
+        technical: ls(
+          "Per-instance Docker Compose stacks rendered on demand with plan-based limits",
+          "Sinh stack Docker Compose cho mỗi instance theo yêu cầu với giới hạn theo gói"
+        ),
+        benefit: ls(
+          "New isolated instances are live in minutes, fully self-service",
+          "Instance độc lập mới sẵn sàng sau vài phút, hoàn toàn tự phục vụ"
+        ),
+      },
+      {
+        feature: ls("Backups & upgrades", "Sao lưu & nâng cấp"),
+        technical: ls(
+          "Scheduled backups to object storage; upgrades with pre-backup and automatic rollback",
+          "Sao lưu định kỳ lên object storage; nâng cấp có sao lưu trước và tự động khôi phục"
+        ),
+        benefit: ls(
+          "Customer data is protected and version changes are low-risk",
+          "Dữ liệu khách được bảo vệ và việc đổi phiên bản ít rủi ro"
+        ),
+      },
+      {
+        feature: ls("Isolation & access control", "Cô lập & kiểm soát truy cập"),
+        technical: ls(
+          "Per-tenant containers, database row-level security, server-side role checks",
+          "Container theo người dùng, bảo mật theo hàng, kiểm tra vai trò phía máy chủ"
+        ),
+        benefit: ls(
+          "Users only ever reach their own resources, even under attack",
+          "Người dùng chỉ truy cập được tài nguyên của mình, kể cả khi bị tấn công"
+        ),
+      },
+      {
+        feature: ls("Networking", "Mạng"),
+        technical: ls(
+          "Outbound-only Cloudflare Tunnel + private control-plane-to-agent link",
+          "Cloudflare Tunnel chỉ-đi-ra + kết nối control plane tới agent qua mạng riêng"
+        ),
+        benefit: ls(
+          "No inbound ports on hosts; smaller attack surface",
+          "Không mở cổng vào trên máy chủ; giảm bề mặt tấn công"
+        ),
+      },
+      {
+        feature: ls("Bilingual storefront", "Website song ngữ"),
+        technical: ls(
+          "React SPA with EN/VI content and locale-prefixed routes",
+          "React SPA với nội dung Anh/Việt và route theo locale"
+        ),
+        benefit: ls(
+          "Reaches both local and international customers with transparent pricing",
+          "Tiếp cận cả khách trong nước và quốc tế với bảng giá minh bạch"
+        ),
+      },
+    ],
+    ctaTitle: ls(
+      "Need a managed-hosting or IoT platform like this?",
+      "Cần một nền tảng hosting hoặc IoT tương tự?"
+    ),
+    ctaDescription: ls(
+      "I design and build multi-tenant SaaS platforms — provisioning, backups, billing-ready dashboards, and secure infrastructure. Let's talk about your product.",
+      "Tôi thiết kế và xây dựng các nền tảng SaaS đa người dùng — khởi tạo, sao lưu, dashboard sẵn sàng cho thanh toán và hạ tầng bảo mật. Hãy trao đổi về sản phẩm của bạn."
+    ),
+  },
+  {
     id: "rooftop-solar-monitoring-system",
     slug: "rooftop-solar-monitoring-system",
     title: ls(
