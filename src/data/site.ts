@@ -8,7 +8,7 @@ export const site = {
   whatsappNumber: "84847578466",
   whatsappDisplay: "+84 847 578 466",
   facebookUrl: "https://www.facebook.com/trieu.vi.419252",
-  linkedinUrl: "https://www.linkedin.com/in/trieu-vi-nguyen-a61061331/",
+  linkedinUrl: "https://www.linkedin.com/in/vi-nguyen-trieu-a61061331/",
 };
 
 export const whatsappUrl = `https://wa.me/${site.whatsappNumber}`;
