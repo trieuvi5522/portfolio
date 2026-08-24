@@ -103,6 +103,16 @@ export const certificateGroups: CertificateGroup[] = [
     certificates: [
       {
         title: ls(
+          "ABB Robot Operation Training",
+          "Đào tạo Vận hành Robot ABB"
+        ),
+        issuer: "ABB Robotics Vietnam",
+        date: "2026-08-21",
+        image: "abb-robot-operation-basic-2026.jpg",
+        file: "/certificates/abb-robot-operation-basic-2026.jpg",
+      },
+      {
+        title: ls(
           "Mitsubishi Electric Cup Automation 2024 — Top 20",
           "Mitsubishi Electric Cup Automation 2024 — Top 20"
         ),
