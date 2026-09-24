@@ -4,53 +4,70 @@ import { useTranslations, pick } from "../../i18n/utils";
 
 interface Props {
   highlights: TechHighlight[];
+  /** Section number, continuing the case-study sections */
+  index?: number;
   lang: Locale;
 }
-const { highlights, lang } = Astro.props;
+const { highlights, index, lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<section>
-  <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">{t("project.techHighlights")}</h2>
+<section id="tech-highlights" class="scroll-mt-28">
+  <div class="flex items-baseline gap-4">
+    {index && <span class="font-mono text-sm font-semibold text-accent" aria-hidden="true">{String(index).padStart(2, "0")}</span>}
+    <h2 data-split class="text-2xl font-semibold tracking-[-0.025em] sm:text-3xl">{t("project.techHighlights")}</h2>
+  </div>
 
   {/* Desktop: table */}
-  <div class="mt-5 hidden overflow-hidden rounded-xl border border-line md:block">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="border-b border-line bg-surface text-left">
-          <th class="px-4 py-3 font-semibold">{t("project.feature")}</th>
-          <th class="px-4 py-3 font-semibold">{t("project.technical")}</th>
-          <th class="px-4 py-3 font-semibold">{t("project.benefit")}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          highlights.map((h) => (
-            <tr class="border-b border-line last:border-b-0">
-              <td class="px-4 py-3 align-top font-medium text-accent">{pick(h.feature, lang)}</td>
-              <td class="px-4 py-3 align-top text-muted">{pick(h.technical, lang)}</td>
-              <td class="px-4 py-3 align-top text-muted">{pick(h.benefit, lang)}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+  <div data-reveal class="mt-7 hidden md:block">
+    <div class="card overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-line text-left font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-muted">
+            <th class="px-5 py-4 font-semibold">{t("project.feature")}</th>
+            <th class="px-5 py-4 font-semibold">{t("project.technical")}</th>
+            <th class="px-5 py-4 font-semibold">{t("project.benefit")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            highlights.map((h) => (
+              <tr class="border-b border-line transition-colors duration-300 last:border-b-0 hover:bg-accent-soft">
+                <td class="w-[26%] px-5 py-4 align-top font-semibold text-fg">
+                  <span class="flex items-start gap-2.5">
+                    <span class="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_8px_var(--accent)]" />
+                    {pick(h.feature, lang)}
+                  </span>
+                </td>
+                <td class="px-5 py-4 align-top leading-relaxed text-muted">{pick(h.technical, lang)}</td>
+                <td class="px-5 py-4 align-top leading-relaxed text-muted">{pick(h.benefit, lang)}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 
   {/* Mobile: cards */}
-  <div class="mt-5 space-y-3 md:hidden">
+  <div class="mt-7 space-y-3 md:hidden">
     {
       highlights.map((h) => (
-        <div class="rounded-lg border border-line bg-surface p-4">
-          <h3 class="text-sm font-semibold text-accent">{pick(h.feature, lang)}</h3>
-          <p class="mt-2 text-xs text-muted">
-            <span class="font-medium text-fg">{t("project.technical")}: </span>
-            {pick(h.technical, lang)}
-          </p>
-          <p class="mt-1.5 text-xs text-muted">
-            <span class="font-medium text-fg">{t("project.benefit")}: </span>
-            {pick(h.benefit, lang)}
-          </p>
+        <div data-reveal>
+          <div class="card p-5">
+            <h3 class="flex items-start gap-2.5 text-sm font-semibold">
+              <span class="mt-[0.4rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent shadow-[0_0_8px_var(--accent)]" />
+              {pick(h.feature, lang)}
+            </h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted">
+              <span class="font-medium text-fg">{t("project.technical")}: </span>
+              {pick(h.technical, lang)}
+            </p>
+            <p class="mt-2 text-sm leading-relaxed text-muted">
+              <span class="font-medium text-fg">{t("project.benefit")}: </span>
+              {pick(h.benefit, lang)}
+            </p>
+          </div>
         </div>
       ))
     }

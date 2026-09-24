@@ -3,6 +3,7 @@ import type { Locale } from "../../data/types";
 import { certificateGroups } from "../../data/certificates";
 import { useTranslations, pick } from "../../i18n/utils";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../PageHero.astro";
 import SectionHeading from "../SectionHeading.astro";
 import CertificateCard from "../CertificateCard.astro";
 
@@ -14,18 +15,20 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout lang={lang} title={t("cert.title")} description={t("cert.desc")}>
-  <section class="border-b border-line bg-surface">
-    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-      <SectionHeading kicker={t("cert.kicker")} title={t("cert.title")} description={t("cert.desc")} />
-    </div>
-  </section>
+  <PageHero kicker={t("cert.kicker")} title={t("cert.title")} description={t("cert.desc")} />
 
-  <div class="mx-auto max-w-6xl space-y-16 px-4 py-12 sm:px-6 sm:py-16">
+  <div class="mx-auto max-w-6xl space-y-24 px-4 pb-24 pt-4 sm:space-y-32 sm:px-6 sm:pb-32">
     {
-      certificateGroups.map((group) => (
-        <section>
-          <SectionHeading title={pick(group.name, lang)} description={group.blurb ? pick(group.blurb, lang) : undefined} />
-          <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      certificateGroups.map((group, i) => (
+        <section class="grid gap-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14">
+          <div class="lg:sticky lg:top-28 lg:self-start">
+            <SectionHeading
+              index={String(i + 1).padStart(2, "0")}
+              title={pick(group.name, lang)}
+              description={group.blurb ? pick(group.blurb, lang) : undefined}
+            />
+          </div>
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2" data-spotlight-group>
             {group.certificates.map((cert) => (
               <CertificateCard cert={cert} lang={lang} />
             ))}

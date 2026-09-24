@@ -3,8 +3,8 @@ import type { Locale } from "../../data/types";
 import { projects } from "../../data/projects";
 import { useTranslations } from "../../i18n/utils";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../PageHero.astro";
 import ProjectRow from "../ProjectRow.astro";
-import SectionHeading from "../SectionHeading.astro";
 
 interface Props {
   lang: Locale;
@@ -12,8 +12,10 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Summary stats computed from project data
-const countryCount = new Set(projects.map((p) => p.location.en)).size;
+// Summary stats computed from project data ("Vietnam / Global" counts as Vietnam)
+const countryCount = new Set(
+  projects.flatMap((p) => p.location.en.split("/").map((c) => c.trim())).filter((c) => c !== "Global")
+).size;
 const stats = [
   { value: `${projects.length}+`, label: t("home.statProjects") },
   { value: String(countryCount), label: t("home.statCountries") },
@@ -22,26 +24,25 @@ const stats = [
 ---
 
 <BaseLayout lang={lang} title={t("projects.title")} description={t("projects.desc")}>
-  <section class="border-b border-line bg-surface">
-    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-      <SectionHeading kicker={t("projects.kicker")} title={t("projects.title")} />
-
-      <dl class="mt-8 grid max-w-lg grid-cols-3 gap-6">
-        {
-          stats.map((stat) => (
-            <div>
-              <dt class="sr-only">{stat.label}</dt>
-              <dd class="font-display text-3xl font-semibold text-accent">{stat.value}</dd>
-              <p class="mt-1 text-xs text-muted">{stat.label}</p>
+  <PageHero kicker={t("projects.kicker")} title={t("projects.title")} description={t("projects.desc")}>
+    <dl class="mt-12 grid max-w-2xl grid-cols-3 gap-3 sm:gap-4" data-spotlight-group>
+      {
+        stats.map((stat) => (
+          <div data-reveal data-reveal-delay="0.35">
+            <div data-spotlight class="card flex h-full flex-col-reverse justify-end gap-1 px-4 py-4 sm:px-6 sm:py-5">
+              <dt class="text-xs leading-snug text-muted sm:text-sm">{stat.label}</dt>
+              <dd data-count class="text-gradient font-display text-3xl font-semibold tracking-tight tabular-nums sm:text-5xl">
+                {stat.value}
+              </dd>
             </div>
-          ))
-        }
-      </dl>
-    </div>
-  </section>
+          </div>
+        ))
+      }
+    </dl>
+  </PageHero>
 
-  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
-    <div class="space-y-16 sm:space-y-24">
+  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8 sm:px-6 sm:pb-32 sm:pt-12">
+    <div class="space-y-24 sm:space-y-36">
       {projects.map((project, i) => <ProjectRow project={project} lang={lang} index={i + 1} />)}
     </div>
   </section>

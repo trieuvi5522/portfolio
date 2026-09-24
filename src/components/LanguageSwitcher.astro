@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "../data/types";
 import { switchLocalePath } from "../i18n/utils";
+import { languageNames } from "../i18n/ui";
 
 interface Props {
   lang: Locale;
@@ -14,18 +15,19 @@ const options: { code: Locale; label: string }[] = [
 ];
 ---
 
-<div class="flex items-center overflow-hidden rounded-md border border-line text-xs font-medium">
+<div class="flex items-center rounded-full border border-glass-border bg-glass p-0.5 font-mono text-[0.6875rem] font-semibold">
   {
     options.map((opt) => (
       <a
         href={switchLocalePath(pathname, opt.code)}
+        hreflang={opt.code}
+        lang={opt.code}
         data-lang-switch
+        aria-label={languageNames[opt.code]}
         aria-current={opt.code === lang ? "true" : undefined}
         class:list={[
-          "px-2.5 py-1.5 transition-colors",
-          opt.code === lang
-            ? "bg-accent-soft text-accent"
-            : "text-muted hover:text-fg",
+          "rounded-full px-2.5 py-1.5 leading-none transition-colors duration-300",
+          opt.code === lang ? "bg-fg text-bg shadow-sm" : "text-muted hover:text-fg",
         ]}
       >
         {opt.label}
@@ -38,11 +40,18 @@ const options: { code: Locale; label: string }[] = [
   // Keep the reading position when switching language instead of jumping to top.
   (() => {
     const KEY = "langSwitchScrollY";
+    let switching = false;
 
     document.querySelectorAll("[data-lang-switch]").forEach((el) => {
       el.addEventListener("click", () => {
+        switching = true;
         sessionStorage.setItem(KEY, String(window.scrollY));
       });
+    });
+
+    // Same page, other language: skip the page-transition animation (the scroll jump would show)
+    window.addEventListener("pageswap", (e) => {
+      if (switching) (e as Event & { viewTransition?: ViewTransition | null }).viewTransition?.skipTransition();
     });
 
     const saved = sessionStorage.getItem(KEY);

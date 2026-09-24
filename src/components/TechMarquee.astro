@@ -1,0 +1,24 @@
+---
+/** Infinite ticker of technologies (decorative — the same names appear in real content elsewhere) */
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<div class="marquee border-y border-line py-4" aria-hidden="true" style={`--marquee-duration: ${items.length * 3}s`}>
+  <div class="marquee-track">
+    {
+      [0, 1].map(() => (
+        <ul class="flex shrink-0 items-center">
+          {items.map((item) => (
+            <li class="flex items-center gap-3 whitespace-nowrap px-6 font-mono text-xs font-medium uppercase tracking-[0.16em] text-muted">
+              <span class="h-1 w-1 rounded-full bg-accent" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>

@@ -15,6 +15,7 @@ const en = {
   "nav.certificates": "Certificates",
   "nav.contact": "Contact",
   "nav.menu": "Menu",
+  "nav.skip": "Skip to content",
 
   /* Home */
   "home.kicker": "IoT Specialist & Automation Engineer",
@@ -59,10 +60,12 @@ const en = {
   "project.published": "Published",
   "project.location": "Location",
   "project.ctaButton": "Get in touch",
+  "project.onThisPage": "On this page",
+  "project.nextProject": "Next project",
 
   /* About */
   "about.kicker": "About Me",
-  "about.greeting": "Hi! I'm Triều Vĩ, but you can call me Luca — welcome to my portfolio 😄",
+  "about.greeting": "Hi! I'm Triều Vĩ, but you can call me Luca — welcome to my portfolio",
   "about.intro1":
     "I'm an Automation Engineer and IoT specialist based in Vietnam. I've worked with local and international partners to deliver a wide range of IoT systems — from Industrial IoT (IIoT) and Smart Buildings to high-tech agriculture.",
   "about.intro2":
@@ -90,15 +93,22 @@ const en = {
   "contact.copy": "Copy",
   "contact.copied": "Copied!",
   "contact.availability": "Based in Vietnam (GMT+7) — working with clients across Europe and Asia. I usually reply within 24 hours.",
+  "contact.localTime": "Local time in Vietnam",
 
   /* Footer */
   "footer.tagline": "IoT Specialist & Automation Engineer",
   "footer.rights": "All rights reserved.",
+  "footer.backToTop": "Back to top",
 
   /* 404 */
   "notFound.title": "Page not found",
   "notFound.desc": "The page you're looking for doesn't exist or has been moved.",
   "notFound.back": "Back to home",
+
+  /* Lightbox */
+  "lightbox.close": "Close",
+  "lightbox.prev": "Previous image",
+  "lightbox.next": "Next image",
 
   /* Theme */
   "theme.toggle": "Toggle dark mode",
@@ -111,6 +121,7 @@ const vi: Record<keyof typeof en, string> = {
   "nav.certificates": "Chứng chỉ",
   "nav.contact": "Liên hệ",
   "nav.menu": "Menu",
+  "nav.skip": "Chuyển đến nội dung",
 
   /* Home */
   "home.kicker": "Chuyên gia IoT & Kỹ sư Tự động hoá",
@@ -155,10 +166,12 @@ const vi: Record<keyof typeof en, string> = {
   "project.published": "Ngày đăng",
   "project.location": "Địa điểm",
   "project.ctaButton": "Liên hệ ngay",
+  "project.onThisPage": "Nội dung chính",
+  "project.nextProject": "Dự án tiếp theo",
 
   /* About */
   "about.kicker": "Giới thiệu",
-  "about.greeting": "Xin chào! Tôi là Triều Vĩ nhưng bạn có thể gọi tôi là Luca — chào mừng đến portfolio của tôi 😄",
+  "about.greeting": "Xin chào! Tôi là Triều Vĩ nhưng bạn có thể gọi tôi là Luca — chào mừng đến portfolio của tôi",
   "about.intro1":
     "Là một kỹ sư tự động hóa và chuyên viên IoT đang sinh sống tại Việt Nam. Tôi đã cùng các đối tác trong và ngoài nước triển khai nhiều hệ thống IoT đa dạng — từ Công nghiệp (IIoT), Toà nhà thông minh (Smart Building) đến Nông nghiệp công nghệ cao.",
   "about.intro2":
@@ -186,15 +199,22 @@ const vi: Record<keyof typeof en, string> = {
   "contact.copy": "Sao chép",
   "contact.copied": "Đã sao chép!",
   "contact.availability": "Làm việc tại Việt Nam (GMT+7) — phục vụ khách hàng tại châu Âu và châu Á. Tôi thường phản hồi trong vòng 24 giờ.",
+  "contact.localTime": "Giờ hiện tại ở Việt Nam",
 
   /* Footer */
   "footer.tagline": "Chuyên gia IoT & Kỹ sư Tự động hoá",
   "footer.rights": "Bảo lưu mọi quyền.",
+  "footer.backToTop": "Lên đầu trang",
 
   /* 404 */
   "notFound.title": "Không tìm thấy trang",
   "notFound.desc": "Trang bạn tìm không tồn tại hoặc đã được di chuyển.",
   "notFound.back": "Về trang chủ",
+
+  /* Lightbox */
+  "lightbox.close": "Đóng",
+  "lightbox.prev": "Ảnh trước",
+  "lightbox.next": "Ảnh tiếp theo",
 
   /* Theme */
   "theme.toggle": "Chuyển chế độ sáng/tối",

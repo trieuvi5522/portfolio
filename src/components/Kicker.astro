@@ -1,0 +1,14 @@
+---
+/** Mono pill label with a live dot. The visible copy "decodes" in on first view (data-scramble). */
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+
+<p class:list={["kicker", className]}>
+  <span class="kicker-dot" aria-hidden="true"></span>
+  <span class="sr-only">{text}</span>
+  <span aria-hidden="true" data-scramble>{text}</span>
+</p>

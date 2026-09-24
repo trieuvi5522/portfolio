@@ -23,8 +23,7 @@ const escapeHtml = (s: string) =>
 const renderInline = (raw: string): string =>
   escapeHtml(raw).replace(
     /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
-    (_m, label, url) =>
-      `<a href="${url}" target="_blank" rel="noreferrer" class="font-medium text-accent underline-offset-4 hover:underline">${label}</a>`
+    (_m, label, url) => `<a href="${url}" target="_blank" rel="noreferrer" class="prose-link">${label}</a>`
   );
 
 type Block = { type: "p"; html: string } | { type: "ul"; items: string[] };
@@ -52,20 +51,20 @@ for (const line of text.split("\n")) {
 flushList();
 ---
 
-<div class:list={["space-y-3", className]}>
+<div class:list={["space-y-4", className]}>
   {
     blocks.map((block) =>
       block.type === "ul" ? (
-        <ul class="ml-1 space-y-1.5">
+        <ul class="space-y-2.5">
           {block.items.map((item) => (
-            <li class="flex items-start gap-2 leading-relaxed text-muted">
-              <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+            <li class="flex items-start gap-3 leading-[1.75] text-body">
+              <span class="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rotate-45 rounded-[1px] bg-gradient-to-br from-accent to-accent-2" />
               <span set:html={item} />
             </li>
           ))}
         </ul>
       ) : (
-        <p class="leading-relaxed text-muted" set:html={block.html} />
+        <p class="leading-[1.8] text-body" set:html={block.html} />
       )
     )
   }

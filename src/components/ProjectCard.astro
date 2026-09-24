@@ -14,26 +14,26 @@ const t = useTranslations(lang);
 const href = localePath(`/projects/${project.slug}`, lang);
 ---
 
-<article class="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-accent">
-  <a href={href} class="block overflow-hidden border-b border-line" aria-hidden="true" tabindex="-1">
+<article data-spotlight class="card card-hover group flex flex-col p-2">
+  <a href={href} class="window-screen block" aria-hidden="true" tabindex="-1">
     <Image
       src={projectImage(project.cover)}
       alt={pick(project.title, lang)}
       widths={[480, 768, 1024]}
       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-      class="aspect-[16/10] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+      class="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
     />
   </a>
 
-  <div class="flex flex-1 flex-col gap-3 p-5">
-    <div class="flex items-center gap-2 text-xs text-muted">
-      <span class="font-medium text-accent">{pick(project.location, lang)}</span>
+  <div class="flex flex-1 flex-col gap-3 p-4 pt-5">
+    <div class="flex items-center gap-2 font-mono text-[0.6875rem] text-muted">
+      <span class="font-semibold uppercase tracking-[0.12em] text-accent-strong">{pick(project.location, lang)}</span>
       <span aria-hidden="true">·</span>
       <time datetime={project.publishedAt}>{formatDate(project.publishedAt, lang)}</time>
     </div>
 
     <h3 class="text-lg font-semibold leading-snug tracking-tight">
-      <a href={href} class="transition-colors group-hover:text-accent">{pick(project.title, lang)}</a>
+      <a href={href} class="transition-colors group-hover:text-accent-strong">{pick(project.title, lang)}</a>
     </h3>
 
     <p class="line-clamp-3 text-sm leading-relaxed text-muted">{pick(project.excerpt, lang)}</p>
@@ -41,13 +41,13 @@ const href = localePath(`/projects/${project.slug}`, lang);
     <div class="mt-auto flex flex-wrap gap-1.5 pt-2">
       {project.tech.slice(0, 4).map((tech) => <TechBadge label={tech} />)}
       {project.tech.length > 4 && (
-        <span class="inline-flex items-center px-1 text-xs text-muted">+{project.tech.length - 4}</span>
+        <span class="inline-flex items-center px-1 font-mono text-[0.6875rem] text-muted">+{project.tech.length - 4}</span>
       )}
     </div>
 
-    <span class="inline-flex items-center gap-1 text-sm font-medium text-accent">
+    <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-strong">
       {t("projects.readCase")}
-      <svg class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12h14M13 6l6 6-6 6"></path>
       </svg>
     </span>

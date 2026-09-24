@@ -1,0 +1,64 @@
+---
+import LogoMark from "./LogoMark.astro";
+
+/**
+ * Decorative hero visual: the protocols and platforms I work with orbiting a
+ * glowing core. Rings spin in CSS; pointer tilt + scroll-out come from motion.ts.
+ */
+const rings = [
+  { size: "46%", duration: "28s", reverse: false, labels: ["MQTT", "OPC UA"], dots: 2 },
+  { size: "72%", duration: "44s", reverse: true, labels: ["Modbus RTU/TCP", "RS485", "TCP/IP"], dots: 2 },
+  { size: "98%", duration: "64s", reverse: false, labels: ["Node-RED", "ThingsBoard", "InfluxDB", "Grafana"], dots: 3 },
+];
+
+/** Interleave labels and glowing dots evenly around a ring */
+const nodesFor = (labels: string[], dots: number) => {
+  const nodes: (string | null)[] = [];
+  const total = labels.length + dots;
+  let l = 0;
+  let d = 0;
+  for (let i = 0; i < total; i++) {
+    const wantLabel = l < labels.length && (d >= dots || i % 2 === 0);
+    if (wantLabel) {
+      nodes.push(labels[l++]);
+    } else {
+      nodes.push(null);
+      d++;
+    }
+  }
+  return nodes;
+};
+---
+
+<div data-reveal="scale" data-reveal-delay="0.35">
+  <div data-hero-visual>
+    <div class="orbit" aria-hidden="true">
+      <div class="orbit-tilt" data-orbit-tilt>
+        <div class="orbit-glow"></div>
+        {
+          rings.map((ring, r) => {
+            const nodes = nodesFor(ring.labels, ring.dots);
+            return (
+              <div
+                class="orbit-ring"
+                style={`--size: ${ring.size}; --duration: ${ring.duration}; --direction: ${ring.reverse ? "reverse" : "normal"}; --counter: ${ring.reverse ? "normal" : "reverse"}`}
+              >
+                {nodes.map((label, i) => (
+                  <div class="orbit-node" style={`--angle: ${(360 / nodes.length) * i + r * 40 - 90}deg`}>
+                    <span>{label ? <span class="orbit-label">{label}</span> : <span class="orbit-dot" />}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })
+        }
+        <div class="orbit-core">
+          <div class="flex flex-col items-center gap-2">
+            <LogoMark class="h-12 w-12 rounded-2xl" />
+            <span class="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-muted">Edge · Cloud</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

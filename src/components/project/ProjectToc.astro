@@ -1,0 +1,77 @@
+---
+import type { Locale } from "../../data/types";
+import { useTranslations } from "../../i18n/utils";
+
+/** Sticky "on this page" navigation for case studies (desktop only) */
+interface Props {
+  items: { id: string; label: string }[];
+  lang: Locale;
+}
+const { items, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<aside class="hidden lg:block">
+  <nav class="sticky top-28" aria-label={t("project.onThisPage")}>
+    <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-muted">
+      {t("project.onThisPage")}
+    </p>
+    <ol class="mt-5 border-l border-line">
+      {
+        items.map((item, i) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              data-toc-link={item.id}
+              class="toc-link -ml-px flex gap-3 border-l py-1.5 pl-4 text-sm text-muted transition-colors duration-300 hover:text-fg"
+            >
+              <span class="mt-px font-mono text-xs opacity-60">{String(i + 1).padStart(2, "0")}</span>
+              <span class="leading-snug">{item.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+</aside>
+
+<style>
+  .toc-link {
+    border-color: transparent;
+  }
+  .toc-link.is-active {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+</style>
+
+<script>
+  // Highlight the section currently crossing the upper third of the viewport
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"));
+  const targets = links
+    .map((link) => ({ link, section: document.getElementById(link.dataset.tocLink ?? "") }))
+    .filter((entry): entry is { link: HTMLAnchorElement; section: HTMLElement } => entry.section !== null);
+
+  if (targets.length) {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const line = window.innerHeight * 0.35;
+      let current = targets[0];
+      for (const target of targets) {
+        if (target.section.getBoundingClientRect().top <= line) current = target;
+      }
+      for (const target of targets) target.link.classList.toggle("is-active", target === current);
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
+    update();
+  }
+</script>

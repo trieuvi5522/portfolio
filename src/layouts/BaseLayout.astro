@@ -2,9 +2,10 @@
 import "../styles/global.css";
 import type { Locale } from "../data/types";
 import { site } from "../data/site";
-import { switchLocalePath } from "../i18n/utils";
+import { switchLocalePath, useTranslations } from "../i18n/utils";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Aurora from "../components/Aurora.astro";
 
 interface Props {
   lang: Locale;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const { lang, title, description, ogImage } = Astro.props;
+const t = useTranslations(lang);
 
 const siteUrl = Astro.site!;
 const pathname = Astro.url.pathname;
@@ -29,11 +31,33 @@ const fullTitle = `${title} | ${site.ownerName}`;
 <!doctype html>
 <html lang={lang}>
   <head>
-    {/* Theme must be applied before first paint to avoid a flash of the wrong theme. Light is the default. */}
+    {/* Runs before first paint: theme (light is the default), background phase, and motion opt-in. */}
     <script is:inline>
-      if (localStorage.getItem("theme") === "dark") {
-        document.documentElement.classList.add("dark");
-      }
+      (() => {
+        const root = document.documentElement;
+        try {
+          if (localStorage.getItem("theme") === "dark") root.classList.add("dark");
+        } catch (e) {}
+        // The aurora's drift phase comes from the wall clock, so it continues seamlessly across pages.
+        root.style.setProperty("--aurora-offset", -(Date.now() % 1200000) / 1000 + "s");
+        // Hide scroll-reveal targets until the motion script takes over — undone if it never boots.
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          root.classList.add("motion");
+          setTimeout(() => {
+            if (!root.classList.contains("motion-ready")) root.classList.remove("motion");
+          }, 2500);
+        }
+        // Keep the header still during page transitions. The name is only set while a transition
+        // runs: a permanent view-transition-name would make it a backdrop root and kill its blur.
+        const pinHeader = (transition) => {
+          const header = document.querySelector("[data-header]");
+          if (!transition || !header) return;
+          header.style.viewTransitionName = "site-header";
+          transition.finished.finally(() => (header.style.viewTransitionName = ""));
+        };
+        addEventListener("pageswap", (e) => pinHeader(e.viewTransition));
+        addEventListener("pagereveal", (e) => pinHeader(e.viewTransition));
+      })();
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -61,11 +85,21 @@ const fullTitle = `${title} | ${site.ownerName}`;
     <meta name="twitter:description" content={description} />
     {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
   </head>
-  <body class="flex min-h-screen flex-col">
+  <body class="relative flex min-h-screen flex-col overflow-x-clip">
+    <a
+      href="#main"
+      class="sr-only rounded-full bg-fg px-4 py-2 text-sm font-semibold text-bg focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70]"
+    >
+      {t("nav.skip")}
+    </a>
+    <Aurora />
     <Header lang={lang} />
-    <main class="flex-1">
+    <main id="main" class="flex-1">
       <slot />
     </main>
     <Footer lang={lang} />
+    <script>
+      import "../scripts/motion";
+    </script>
   </body>
 </html>

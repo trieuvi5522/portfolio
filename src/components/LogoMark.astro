@@ -1,0 +1,26 @@
+---
+/** Brand mark: the Luca IoT cloud outline on a gradient tile */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    "relative inline-grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-xl text-white shadow-[0_8px_20px_-8px_rgb(13_148_136/0.8)]",
+    className,
+  ]}
+  style="background-image: linear-gradient(135deg, #0d9488 0%, #0891b2 50%, #6366f1 100%)"
+  aria-hidden="true"
+>
+  <span class="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent"></span>
+  <svg class="relative w-[62%]" viewBox="12 4 148 66" fill="none">
+    <path
+      d="M38 64C27 64 18 55 18 45C18 36 24 28 33 26C36 16 45 10 56 10C64 10 72 13 77 19C82 15 88 13 95 13C108 13 119 22 121 34C125 32 129 31 133 31C145 31 154 40 154 51"
+      stroke="currentColor"
+      stroke-width="11"
+      stroke-linecap="round"
+      stroke-linejoin="round"></path>
+  </svg>
+</span>

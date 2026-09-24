@@ -2,13 +2,14 @@
 
 Personal portfolio website for **Luca Nguyen** (IoT Specialist & Automation Engineer), showcasing real-world IoT projects across Vietnam, Denmark, and Germany.
 
-Built with **Astro 5 + Tailwind CSS v4** — fully static, bilingual (EN/VI), light/dark theme, optimized for Cloudflare Pages.
+Built with **Astro 6 + Tailwind CSS v4 + GSAP** — fully static, bilingual (EN/VI), light/dark theme, optimized for Cloudflare Pages.
 
 ## ✨ Features
 
 - **Bilingual**: English at `/`, Vietnamese at `/vi/` (with hreflang + localized sitemap)
-- **Light theme by default + dark mode toggle** (persisted in `localStorage`, no flash on load)
-- **4 detailed project case studies** with architecture flow cards, tech highlight tables, image galleries, and a lightbox
+- **Light theme by default + dark mode toggle** (persisted in `localStorage`, no flash on load, circular reveal on switch)
+- **Aurora + glass UI with motion**: animated aurora background, frosted-glass cards with pointer spotlight, GSAP scroll reveals / split-text headings / parallax, Lenis smooth scrolling, and cross-page View Transitions. Everything falls back to a static page with `prefers-reduced-motion`.
+- **Detailed project case studies** with a sticky table of contents, architecture flow pipelines, tech highlight tables, image galleries, and a keyboard-navigable lightbox
 - **Optimized images**: all dashboard screenshots converted to responsive WebP at build time (e.g. 1.4 MB → 43 kB)
 - **SEO**: canonical URLs, Open Graph tags, hreflang alternates, sitemap, robots.txt
 
@@ -67,6 +68,8 @@ src/
 │  ├─ ui.ts              # ★ UI strings + About content (EN/VI)
 │  └─ utils.ts           # Locale helpers (paths, translations, dates)
 ├─ layouts/BaseLayout.astro  # <head>, SEO, theme script, header/footer
+├─ scripts/motion.ts     # GSAP + Lenis motion layer, driven by data-* attributes (see file header)
+├─ styles/global.css     # Design tokens (light/dark), glass components, aurora, keyframes
 └─ pages/                # Routes: EN at root, VI under /vi/ (thin shells)
 ```
 

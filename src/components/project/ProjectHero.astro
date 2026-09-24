@@ -1,7 +1,12 @@
 ---
+import { Image } from "astro:assets";
 import type { Locale, Project } from "../../data/types";
+import { projectImage } from "../../lib/images";
 import { useTranslations, pick, formatDate, localePath } from "../../i18n/utils";
 import TechBadge from "../TechBadge.astro";
+import Flag from "../Flag.astro";
+import Kicker from "../Kicker.astro";
+import HeroBackdrop from "../HeroBackdrop.astro";
 
 interface Props {
   project: Project;
@@ -9,41 +14,87 @@ interface Props {
 }
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
+
+const flagByCountry: Record<string, string> = { Vietnam: "vn", Denmark: "dk", Germany: "de" };
+const flagCode = flagByCountry[project.location.en.split("/")[0].trim()];
+const address = `${Astro.site?.host ?? ""}${localePath(`/projects/${project.slug}`, lang)}`;
 ---
 
-<header class="border-b border-line bg-surface">
-  <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
-    <a
-      href={localePath("/projects", lang)}
-      class="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-accent"
-    >
-      <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M11 18l-6-6 6-6"></path>
-      </svg>
-      {t("projects.backToProjects")}
-    </a>
+<header class="relative isolate">
+  <HeroBackdrop />
+  <div class="mx-auto max-w-6xl px-4 pt-10 sm:px-6 sm:pt-14">
+    <div data-reveal="fade">
+      <a href={localePath("/projects", lang)} class="btn btn-ghost btn-sm group">
+        <svg class="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M11 18l-6-6 6-6"></path>
+        </svg>
+        {t("projects.backToProjects")}
+      </a>
+    </div>
 
-    <p class="mt-6 text-xs font-semibold uppercase tracking-widest text-accent">{pick(project.industry, lang)}</p>
-    <h1 class="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
-      {pick(project.title, lang)}
-    </h1>
-    <p class="mt-4 max-w-2xl leading-relaxed text-muted">{pick(project.excerpt, lang)}</p>
-
-    <dl class="mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-      <div class="flex items-center gap-2">
-        <dt class="text-muted">{t("project.location")}:</dt>
-        <dd class="font-medium">{pick(project.location, lang)}</dd>
+    <div class="mt-10 max-w-4xl sm:mt-12">
+      <div data-reveal="fade" data-reveal-delay="0.1">
+        <Kicker text={pick(project.industry, lang)} />
       </div>
-      <div class="flex items-center gap-2">
-        <dt class="text-muted">{t("project.published")}:</dt>
-        <dd class="font-medium">
-          <time datetime={project.publishedAt}>{formatDate(project.publishedAt, lang)}</time>
-        </dd>
-      </div>
-    </dl>
+      <h1
+        data-split
+        data-split-delay="0.15"
+        class="mt-6 text-4xl font-semibold leading-[1.05] tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl"
+      >
+        {pick(project.title, lang)}
+      </h1>
+      <p data-reveal data-reveal-delay="0.35" class="mt-6 max-w-3xl text-lg leading-relaxed text-muted">
+        {pick(project.excerpt, lang)}
+      </p>
 
-    <div class="mt-5 flex flex-wrap gap-1.5">
-      {project.tech.map((tech) => <TechBadge label={tech} />)}
+      <dl data-reveal data-reveal-delay="0.45" class="mt-8 flex flex-wrap gap-2 text-sm">
+        <div class="inline-flex items-center gap-2 rounded-full border border-glass-border bg-glass px-3.5 py-1.5">
+          <dt class="text-muted">{t("project.location")}</dt>
+          <dd class="inline-flex items-center gap-1.5 font-medium">
+            {flagCode && <Flag code={flagCode} class="h-3 w-[1.1rem]" />}
+            {pick(project.location, lang)}
+          </dd>
+        </div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-glass-border bg-glass px-3.5 py-1.5">
+          <dt class="text-muted">{t("project.published")}</dt>
+          <dd class="font-medium">
+            <time datetime={project.publishedAt}>{formatDate(project.publishedAt, lang)}</time>
+          </dd>
+        </div>
+      </dl>
+
+      <div data-reveal data-reveal-delay="0.55" class="mt-4 flex flex-wrap gap-1.5">
+        {project.tech.map((tech) => <TechBadge label={tech} />)}
+      </div>
+    </div>
+
+    {/* Cover — shares a view-transition name with the card on the projects index */}
+    <div class="relative mt-14 sm:mt-16">
+      <div
+        aria-hidden="true"
+        class="absolute -inset-x-6 -inset-y-4 -z-10 rounded-[3rem] opacity-30 blur-3xl"
+        style="background-image: var(--grad-accent)"
+      >
+      </div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+          <span class="window-dot"></span>
+          <span class="window-url">{address}</span>
+        </div>
+        <div class="window-screen" style={`view-transition-name: cover-${project.slug}`}>
+          <Image
+            src={projectImage(project.cover)}
+            alt={pick(project.title, lang)}
+            widths={[640, 1024, 1400]}
+            sizes="(min-width: 1152px) 1100px, 100vw"
+            loading="eager"
+            fetchpriority="high"
+            class="aspect-[16/10] w-full object-cover object-top"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </header>

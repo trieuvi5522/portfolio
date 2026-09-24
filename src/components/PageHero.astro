@@ -1,0 +1,40 @@
+---
+import HeroBackdrop from "./HeroBackdrop.astro";
+import Kicker from "./Kicker.astro";
+
+/** Opening block for top-level pages: kicker, big split-reveal title, lead text, optional extras */
+interface Props {
+  kicker?: string;
+  title: string;
+  description?: string;
+}
+const { kicker, title, description } = Astro.props;
+---
+
+<section class="relative isolate">
+  <HeroBackdrop />
+  <div class="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-24">
+    {
+      kicker && (
+        <div data-reveal="fade">
+          <Kicker text={kicker} />
+        </div>
+      )
+    }
+    <h1
+      data-split
+      data-split-delay="0.1"
+      class="mt-6 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.035em] text-balance sm:text-6xl lg:text-7xl"
+    >
+      {title}
+    </h1>
+    {
+      description && (
+        <p data-reveal data-reveal-delay="0.25" class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+          {description}
+        </p>
+      )
+    }
+    <slot />
+  </div>
+</section>
