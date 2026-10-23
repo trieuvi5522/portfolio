@@ -35,6 +35,17 @@ export interface ProjectSection {
   gallery?: GalleryImage[];
 }
 
+/** Icons available to result stat cards (drawn in components/project/ResultsList.astro) */
+export type ResultIcon = "trending-up" | "zap" | "scale" | "monitor" | "sparkles";
+
+/** A headline result shown as a card: icon, figure and a short caption */
+export interface ResultStat {
+  icon: ResultIcon;
+  /** The figure, e.g. "+30%" or "3s → 1s" */
+  value: string;
+  label: LocaleString;
+}
+
 export interface TechHighlight {
   feature: LocaleString;
   technical: LocaleString;
@@ -60,6 +71,8 @@ export interface Project {
   cover: string;
   resultsTitle?: LocaleString;
   results: LocaleString[];
+  /** Headline results as icon + figure cards, shown instead of the `results` list when set */
+  resultStats?: ResultStat[];
   sections: ProjectSection[];
   techHighlights?: TechHighlight[];
   ctaTitle?: LocaleString;

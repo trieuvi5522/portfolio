@@ -1,16 +1,44 @@
 ---
-import type { Locale, LocaleString } from "../../data/types";
+import type { Locale, LocaleString, ResultIcon, ResultStat } from "../../data/types";
 import { useTranslations, pick } from "../../i18n/utils";
 
 interface Props {
   results: LocaleString[];
+  /** Icon + figure cards; replace the bullet list when given */
+  stats?: ResultStat[];
   title?: LocaleString;
   /** Section number, continuing the case-study sections */
   index?: number;
   lang: Locale;
 }
-const { results, title, index, lang } = Astro.props;
+const { results, stats = [], title, index, lang } = Astro.props;
 const t = useTranslations(lang);
+
+/** Lucide-style 24×24 stroke icons */
+const ICONS: Record<ResultIcon, string> = {
+  "trending-up": '<path d="M22 7 13.5 15.5 8.5 10.5 2 17" /><path d="M16 7h6v6" />',
+  zap: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />',
+  scale:
+    '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="M7 21h10" /><path d="M12 3v18" /><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />',
+  monitor: '<rect width="20" height="14" x="2" y="3" rx="2" /><path d="M8 21h8" /><path d="M12 17v4" />',
+  sparkles:
+    '<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z" />',
+};
+
+// Two cards per row from sm, three from lg; a short last row stretches so the grid stays even.
+const n = stats.length;
+const span = (i: number) => {
+  const sm = n % 2 === 1 && i === n - 1 ? "sm:col-span-6" : "sm:col-span-3";
+  if (n % 3 === 0) return `${sm} lg:col-span-2`;
+  if (n % 3 === 2) return `${sm} ${i >= n - 2 ? "lg:col-span-3" : "lg:col-span-2"}`;
+  return `${sm} ${n % 2 === 1 && i === n - 1 ? "lg:col-span-6" : "lg:col-span-3"}`;
+};
+
+/** "3s → 1s" shows the old figure small and muted, the new one large */
+const splitValue = (value: string) => {
+  const [before, after] = value.split("→").map((part) => part.trim());
+  return after ? { before, after } : { before: undefined, after: value };
+};
 ---
 
 <section id="results" class="results-panel relative isolate scroll-mt-28 overflow-hidden rounded-[1.75rem] p-6 sm:p-10">
@@ -21,20 +49,53 @@ const t = useTranslations(lang);
       {title ? pick(title, lang) : t("project.results")}
     </h2>
   </div>
-  <ul class="mt-7 space-y-4">
-    {
-      results.map((result) => (
-        <li data-reveal class="flex items-start gap-3.5">
-          <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 text-white shadow-[0_6px_16px_-6px_var(--accent)] dark:text-bg">
-            <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m5 12.5 4.5 4.5L19 7.5" />
-            </svg>
-          </span>
-          <span class="leading-relaxed text-body">{pick(result, lang)}</span>
-        </li>
-      ))
-    }
-  </ul>
+  {
+    stats.length > 0 ? (
+      <dl class="mt-7 grid gap-3 sm:grid-cols-6 sm:gap-4">
+        {stats.map((stat, i) => {
+          const { before, after } = splitValue(stat.value);
+          return (
+            <div data-reveal class:list={["result-stat flex flex-col gap-4 rounded-2xl p-5", span(i)]}>
+              <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accent to-accent-2 text-white shadow-[0_8px_20px_-8px_var(--accent)] dark:text-bg">
+                <svg
+                  class="h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  set:html={ICONS[stat.icon]}
+                />
+              </span>
+              <div class="flex flex-col-reverse gap-1">
+                <dt class="text-sm leading-snug text-muted">{pick(stat.label, lang)}</dt>
+                <dd class="flex flex-wrap items-baseline gap-x-2 font-display font-semibold tracking-tight tabular-nums">
+                  {before && <span class="text-lg text-muted">{before} →</span>}
+                  <span class="text-gradient text-3xl sm:text-4xl">{after}</span>
+                </dd>
+              </div>
+            </div>
+          );
+        })}
+      </dl>
+    ) : (
+      <ul class="mt-7 space-y-4">
+        {results.map((result) => (
+          <li data-reveal class="flex items-start gap-3.5">
+            <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-to-br from-accent to-accent-2 text-white shadow-[0_6px_16px_-6px_var(--accent)] dark:text-bg">
+              <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 12.5 4.5 4.5L19 7.5" />
+              </svg>
+            </span>
+            <span class="leading-relaxed text-body">{pick(result, lang)}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </section>
 
 <style>
@@ -67,5 +128,15 @@ const t = useTranslations(lang);
       linear-gradient(#000 0 0);
     mask-composite: exclude;
     pointer-events: none;
+  }
+  /* Stat tiles sit inside the glass panel, so they use a plain tint instead of a second blur */
+  .result-stat {
+    background-color: color-mix(in oklab, var(--surface) 55%, transparent);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 0 var(--glass-highlight);
+    transition: border-color 0.4s ease;
+  }
+  .result-stat:hover {
+    border-color: color-mix(in oklab, var(--accent) 35%, var(--glass-border));
   }
 </style>

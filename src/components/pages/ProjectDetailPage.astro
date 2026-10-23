@@ -23,7 +23,7 @@ const t = useTranslations(lang);
 const ogImage = await getImage({ src: projectImage(project.cover), width: 1200 });
 
 const hasHighlights = !!project.techHighlights && project.techHighlights.length > 0;
-const hasResults = project.results.length > 0;
+const hasResults = project.results.length > 0 || !!project.resultStats?.length;
 const tocItems = [
   ...project.sections.map((section) => ({ id: section.id, label: pick(section.title, lang) })),
   ...(hasHighlights ? [{ id: "tech-highlights", label: t("project.techHighlights") }] : []),
@@ -57,6 +57,7 @@ const nextProject = projects[(currentIndex + 1) % projects.length];
       {hasResults && (
         <ResultsList
           results={project.results}
+          stats={project.resultStats}
           title={project.resultsTitle}
           index={project.sections.length + (hasHighlights ? 2 : 1)}
           lang={lang}
