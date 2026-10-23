@@ -17,12 +17,15 @@
  *
  * Never put data-reveal / data-tilt on an element that also has a CSS transform
  * transition (e.g. .card) — wrap it instead, or the two will fight.
+ *
+ * In lite mode (scripts/perf.ts) scrolling stays native and reveals skip the blur.
  */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import Lenis from "lenis";
+import { isLite, onLite } from "./perf";
 
 declare global {
   interface Window {
@@ -67,10 +70,20 @@ function onFirstView(el: Element, fn: () => void) {
 
 function initSmoothScroll() {
   const lenis = new Lenis({ anchors: true, stopInertiaOnNavigate: true });
+  const raf = (time: number) => lenis.raf(time * 1000);
   lenis.on("scroll", ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.add(raf);
   gsap.ticker.lagSmoothing(0);
   window.__lenis = lenis;
+
+  // Switched to lite mode mid-visit: hand scrolling back to the browser.
+  onLite(() => {
+    gsap.ticker.remove(raf);
+    gsap.ticker.lagSmoothing(500, 33);
+    lenis.destroy();
+    delete window.__lenis;
+    ScrollTrigger.refresh();
+  });
 }
 
 const REVEAL_FROM: Record<string, gsap.TweenVars> = {
@@ -100,7 +113,8 @@ function initReveals() {
       // Scrolled past before we got to it (fast scroll / anchor jump): show it as is,
       // so it doesn't delay the elements that are actually on screen.
       if (el.getBoundingClientRect().bottom < 0) continue;
-      const from = REVEAL_FROM[el.dataset.reveal || "up"] ?? REVEAL_FROM.up;
+      const from = { ...(REVEAL_FROM[el.dataset.reveal || "up"] ?? REVEAL_FROM.up) };
+      if (isLite()) delete from.filter;
       const to: gsap.TweenVars = {};
       for (const key of Object.keys(from)) to[key] = REVEAL_TO[key];
       gsap.fromTo(el, from, {
@@ -158,13 +172,16 @@ function initReveals() {
 function initSplitHeadings() {
   document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
     const split = SplitText.create(el, { type: "words", wordsClass: "split-word" });
-    gsap.set(split.words, { opacity: 0, yPercent: 60, filter: "blur(10px)" });
+    gsap.set(split.words, { opacity: 0, yPercent: 60, filter: isLite() ? "none" : "blur(10px)" });
     el.setAttribute("data-revealed", "");
     onFirstView(el, () => {
+      // Animated blur repaints every word on every frame — lite mode slides them in without it.
+      const lite = isLite();
+      if (lite) gsap.set(split.words, { filter: "none" });
       gsap.to(split.words, {
         opacity: 1,
         yPercent: 0,
-        filter: "blur(0px)",
+        ...(lite ? {} : { filter: "blur(0px)" }),
         duration: 1.2,
         ease: "expo.out",
         stagger: 0.045,
@@ -389,7 +406,7 @@ function initCursorGlow() {
 
 /* --------------------------------- boot ---------------------------------- */
 
-if (!reduceMotion) initSmoothScroll();
+if (!reduceMotion && !isLite()) initSmoothScroll();
 
 if (animateIn) {
   initSplitHeadings();

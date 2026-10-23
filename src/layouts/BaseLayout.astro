@@ -38,6 +38,21 @@ const fullTitle = `${title} | ${site.ownerName}`;
         try {
           if (localStorage.getItem("theme") === "dark") root.classList.add("dark");
         } catch (e) {}
+        // Performance mode (see scripts/perf.ts): ?perf=lite|full forces a mode in this browser,
+        // ?perf=auto goes back to detection. Remembered or very weak hardware → lite from first paint.
+        try {
+          const forced = new URLSearchParams(location.search).get("perf");
+          if (forced === "lite" || forced === "full") {
+            localStorage.setItem("perf-mode", JSON.stringify({ mode: forced, forced: true }));
+          } else if (forced === "auto") {
+            localStorage.removeItem("perf-mode");
+          }
+          const saved = JSON.parse(localStorage.getItem("perf-mode") || "null");
+          if (saved && (saved.forced || saved.until > Date.now())) root.dataset.perf = saved.mode;
+        } catch (e) {}
+        if (!root.dataset.perf && (navigator.hardwareConcurrency <= 2 || navigator.deviceMemory <= 2)) {
+          root.dataset.perf = "lite";
+        }
         // The aurora's drift phase comes from the wall clock, so it continues seamlessly across pages.
         root.style.setProperty("--aurora-offset", -(Date.now() % 1200000) / 1000 + "s");
         // Hide scroll-reveal targets until the motion script takes over — undone if it never boots.

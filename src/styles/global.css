@@ -923,6 +923,23 @@ html.theme-vt * {
   }
 }
 
+/* Lite mode for devices that can't keep up (<html data-perf="lite">, see scripts/perf.ts):
+   same layout and colours, but solid glass instead of live blurs and a still aurora — the
+   blurs had to be recomputed every frame because the aurora behind them never stops moving. */
+:root[data-perf="lite"] {
+  --glass: var(--glass-strong);
+}
+:root[data-perf="lite"] *,
+:root[data-perf="lite"] *::before,
+:root[data-perf="lite"] *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+:root[data-perf="lite"] .aurora-blob {
+  animation-play-state: paused;
+  will-change: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

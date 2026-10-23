@@ -119,6 +119,10 @@ const isActive = (href: string) =>
     background-color: var(--glass-strong);
     box-shadow: inset 0 1px 0 0 var(--glass-highlight), var(--shadow-card);
   }
+  /* Lite mode (scripts/perf.ts) has no blur to hide the content scrolling underneath */
+  :global(:root[data-perf="lite"]) [data-header].is-scrolled .header-pill {
+    background-color: color-mix(in oklab, var(--bg) 94%, transparent);
+  }
 
   /* Pill that slides under the active / hovered nav link */
   .nav-indicator {
