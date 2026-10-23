@@ -2,6 +2,232 @@ import { ls, type Project } from "./types";
 
 const projectEntries: Project[] = [
   {
+    id: "cls-rubber-weighing-scada",
+    slug: "weighing-scada-inventory-chin-lan-shing-rubber",
+    title: ls(
+      "Weighing Monitoring & Inventory Software for Chin Lan Shing Rubber",
+      "Phần mềm giám sát cân & quản lý tồn kho cho Chin Lan Shing Rubber"
+    ),
+    excerpt: ls(
+      "A full rewrite of the legacy weighing-process monitoring and raw-material inventory software at Chin Lan Shing Rubber (Dong Nai). One master PLC and four slave PLCs feed a new JavaScript + MySQL application that runs on the latest Windows — user actions now respond in 1 s instead of 3 s, and operator productivity is up 30%.",
+      "Viết lại toàn bộ phần mềm giám sát quy trình cân và quản lý nguyên liệu tồn kho cho Chin Lan Shing Rubber (Đồng Nai). Dữ liệu từ 1 PLC master và 4 PLC slave được đưa về phần mềm mới viết bằng JavaScript + MySQL, chạy tốt trên Windows mới nhất — thao tác phản hồi trong 1s thay vì 3s, hiệu suất làm việc của người dùng tăng 30%."
+    ),
+    industry: ls(
+      "Industrial Automation / SCADA / Rubber Manufacturing",
+      "Tự động hóa công nghiệp / SCADA / Sản xuất cao su"
+    ),
+    location: ls("Dong Nai, Vietnam", "Đồng Nai, Việt Nam"),
+    publishedAt: "2026-10-23",
+    tech: ["JavaScript", "MySQL", "FATEK PLC", "SCADA"],
+    featured: true,
+    cover: "cls-rubber-weighing-scada/dashboard-after.jpg",
+    resultsTitle: ls("Results After Handover", "Kết quả sau khi bàn giao"),
+    results: [
+      ls(
+        "User actions respond in 1 s instead of 3 s.",
+        "Thời gian phản hồi khi người dùng thao tác giảm từ 3s xuống còn 1s."
+      ),
+      ls(
+        "Weight data travels from the scale to the screen in 0.5 s instead of 2 s — less waiting at every step of a recipe.",
+        "Lấy dữ liệu từ cân và hiển thị lên màn hình chỉ còn 0.5s thay vì 2s — công nhân bớt phải chờ ở từng bước cân."
+      ),
+      ls(
+        "Operator productivity up 30%, with a clear difference during peak hours and noticeably higher user satisfaction.",
+        "Hiệu suất làm việc của người dùng tăng 30%, tốc độ xử lý trong khung giờ cao điểm cải thiện rõ rệt và người dùng hài lòng hơn hẳn."
+      ),
+      ls(
+        "Runs on the latest Windows releases — no more dependence on 32-bit (x86) machines.",
+        "Chạy được trên các phiên bản Windows mới nhất, không còn phụ thuộc vào máy Windows 32-bit (x86)."
+      ),
+      ls(
+        "Same core features as the legacy system, plus data backup, configuration settings, and an English / Vietnamese / Chinese interface.",
+        "Giữ đủ tính năng của hệ thống cũ, bổ sung sao lưu dữ liệu, cài đặt cấu hình và giao diện đa ngôn ngữ Anh / Việt / Trung."
+      ),
+    ],
+    sections: [
+      {
+        id: "overview",
+        title: ls("Project Overview", "Tổng quan dự án"),
+        body: ls(
+          "Chin Lan Shing Rubber in Dong Nai runs an automated weighing room where operators measure out raw materials from 44 numbered bins according to each production recipe. The software that monitors this weighing process and tracks raw-material inventory could no longer keep up.\n\nI was brought in to rewrite it from the ground up: keep every feature the operators rely on, add what the factory was missing, and make sure it runs on current Windows machines.",
+          "Chin Lan Shing Rubber tại Đồng Nai có một phòng cân nguyên liệu tự động: công nhân lấy nguyên liệu từ 44 thùng được đánh số và cân theo đúng từng công thức sản xuất. Phần mềm giám sát quy trình cân và quản lý tồn kho nguyên liệu ở đây đã không còn đáp ứng được nhu cầu.\n\nTôi nhận viết lại phần mềm từ đầu: giữ đủ các tính năng công nhân đang dùng hằng ngày, bổ sung những thứ nhà máy còn thiếu, và bắt buộc phải chạy được trên máy Windows đời mới."
+        ),
+        image: "cls-rubber-weighing-scada/working-space.jpg",
+        imageAlt: ls(
+          "Automated weighing room at Chin Lan Shing Rubber with numbered raw-material bins",
+          "Phòng cân nguyên liệu tự động tại Chin Lan Shing Rubber với các thùng nguyên liệu đánh số"
+        ),
+        imageCaption: ls(
+          "The weighing room: 44 numbered material bins, with the operator station and signal tower in the middle.",
+          "Phòng cân: 44 thùng nguyên liệu đánh số, trạm thao tác và tháp đèn báo ở giữa."
+        ),
+      },
+      {
+        id: "challenge",
+        title: ls("Why a Rewrite", "Vì sao phải viết lại"),
+        body: ls(
+          "The legacy system had reached its limits:\n- Not compatible with newer Windows versions — it only ran on 32-bit (x86) Windows.\n- Slow: every user action took around 3 s to respond, and weight readings took about 2 s to reach the screen.\n- Features the factory needed, such as data backup, configuration settings, and multiple languages, were missing.\n\nThe client's requirements for the new software:\n- Equivalent features to the existing system, so operators keep their familiar workflow.\n- New features: data backup, configuration settings, and a multilingual interface (English, Vietnamese, Chinese).\n- Must run on the latest Windows versions.",
+          "Hệ thống cũ đã chạm giới hạn:\n- Không còn tương thích với các phiên bản Windows mới, chỉ chạy được trên Windows 32-bit (x86).\n- Chậm: mỗi thao tác của người dùng mất khoảng 3s mới phản hồi, dữ liệu cân mất khoảng 2s mới hiện lên màn hình.\n- Thiếu những tính năng nhà máy cần như sao lưu dữ liệu, cài đặt cấu hình, đa ngôn ngữ.\n\nYêu cầu của khách hàng cho phần mềm mới:\n- Tính năng tương đương hệ thống cũ để công nhân giữ được quy trình quen thuộc.\n- Bổ sung: sao lưu dữ liệu, cài đặt cấu hình, giao diện đa ngôn ngữ (Anh, Việt, Trung).\n- Bắt buộc tương thích với các phiên bản Windows mới nhất."
+        ),
+      },
+      {
+        id: "architecture",
+        title: ls("System Architecture", "Kiến trúc hệ thống"),
+        flowLabel: ls(
+          "4 × Slave PLC -> Master PLC -> Server -> Operator UI",
+          "4 PLC slave -> PLC master -> Server -> Giao diện vận hành"
+        ),
+        body: ls(
+          "The control hardware stays in place; the new software sits on top of it.\n- 4 slave PLCs read the sensors that detect when each material bin is opened or closed, along with the actual weight of the bin, then send that data to the master PLC.\n- The master PLC collects data from all slaves, drives the indicator lights and buzzer, and transfers data to the server.\n- The server application, written in JavaScript with a MySQL database, processes incoming data, records each weighing, keeps raw-material inventory up to date, and serves the operator interface.",
+          "Phần cứng điều khiển được giữ nguyên, phần mềm mới chạy phía trên.\n- 4 PLC slave đọc cảm biến đóng/mở thùng nguyên liệu và trọng lượng thực tế của thùng, rồi truyền về PLC master.\n- PLC master gom dữ liệu từ các slave, điều khiển đèn báo, còi và truyền dữ liệu lên server.\n- Phần mềm trên server viết bằng JavaScript, cơ sở dữ liệu MySQL: xử lý dữ liệu nhận về, ghi nhận từng lần cân, cập nhật tồn kho nguyên liệu và cung cấp giao diện cho người vận hành."
+        ),
+        cards: [
+          {
+            title: ls("Slave PLC ×4", "PLC slave ×4"),
+            body: ls(
+              "Read bin open/close sensors and actual bin weights, then report to the master.",
+              "Đọc cảm biến đóng/mở thùng và trọng lượng thực tế của thùng, gửi về master."
+            ),
+          },
+          {
+            title: ls("Master PLC", "PLC master"),
+            body: ls(
+              "Aggregates slave data, drives the indicator lights and buzzer, and forwards data to the server.",
+              "Gom dữ liệu từ các slave, điều khiển đèn báo, còi và chuyển dữ liệu lên server."
+            ),
+          },
+          {
+            title: ls("Server (JavaScript + MySQL)", "Server (JavaScript + MySQL)"),
+            body: ls(
+              "Processes data, logs every weighing, and keeps raw-material inventory current.",
+              "Xử lý dữ liệu, lưu lịch sử cân và cập nhật tồn kho nguyên liệu."
+            ),
+          },
+          {
+            title: ls("Operator UI", "Giao diện vận hành"),
+            body: ls(
+              "Weighing screen, inventory, reports, and settings in English, Vietnamese, or Chinese.",
+              "Màn hình cân, tồn kho, báo cáo và cài đặt bằng tiếng Anh, Việt hoặc Trung."
+            ),
+          },
+        ],
+        image: "cls-rubber-weighing-scada/master-station.jpg",
+        imageAlt: ls(
+          "Master PLC control cabinet with a FATEK PLC at the weighing station",
+          "Tủ điều khiển PLC master dùng PLC FATEK tại trạm cân"
+        ),
+        imageCaption: ls(
+          "Master PLC cabinet: collects data from the 4 slave PLCs and drives the lights and buzzer.",
+          "Tủ PLC master: gom dữ liệu từ 4 PLC slave và điều khiển đèn báo, còi."
+        ),
+      },
+      {
+        id: "legacy-vs-new",
+        title: ls("Legacy vs. New Software", "Phần mềm cũ và phần mềm mới"),
+        body: ls(
+          "The new interface keeps the bin layout operators already know, so the daily workflow feels familiar — but everything around it is clearer and faster:\n- Target, weighed, and total weight shown in large figures at the top of the screen.\n- The active recipe and its materials listed step by step, with the bins to use highlighted on the bin map.\n- A VI / EN / CN language switch in the menu bar, plus separate modules for material receipt & consumption, reports, and SCADA control.",
+          "Giao diện mới giữ nguyên bố cục thùng nguyên liệu mà công nhân đã quen, nên quy trình hằng ngày không bị xáo trộn — nhưng mọi thứ xung quanh rõ ràng và nhanh hơn:\n- Trọng lượng cần cân, đã cân và tổng cân hiển thị số lớn ngay đầu màn hình.\n- Công thức đang cân và danh sách nguyên liệu hiện theo từng bước, thùng cần lấy được tô sáng trên sơ đồ thùng.\n- Chuyển ngôn ngữ VI / EN / CN ngay trên thanh menu, cùng các phân hệ quản lý đầu vào & tiêu hao, báo cáo và điều khiển SCADA."
+        ),
+        gallery: [
+          {
+            src: "cls-rubber-weighing-scada/dashboard-before.jpg",
+            alt: ls(
+              "Legacy weighing software v1.5.2 running on Windows 7",
+              "Phần mềm cân cũ v1.5.2 chạy trên Windows 7"
+            ),
+            caption: ls(
+              "Before: legacy software (v1.5.2) — 32-bit Windows only, slow to respond.",
+              "Trước: phần mềm cũ (v1.5.2) — chỉ chạy trên Windows 32-bit, phản hồi chậm."
+            ),
+          },
+          {
+            src: "cls-rubber-weighing-scada/dashboard-after.jpg",
+            alt: ls(
+              "New weighing software showing target weight, recipe materials, and the bin map",
+              "Phần mềm cân mới hiển thị trọng lượng cần cân, nguyên liệu theo công thức và sơ đồ thùng"
+            ),
+            caption: ls(
+              "After: the new software on the latest Windows — multilingual, recipe-guided, and 3× faster to respond.",
+              "Sau: phần mềm mới trên Windows mới nhất — đa ngôn ngữ, hướng dẫn theo công thức, phản hồi nhanh gấp 3 lần."
+            ),
+          },
+        ],
+      },
+      {
+        id: "new-features",
+        title: ls("New Features", "Tính năng bổ sung"),
+        body: ls(
+          "On top of feature parity with the legacy system, the new software adds:\n- Data backup — weighing history and inventory data are backed up, so records are protected.\n- Configuration settings — key system settings can be changed directly in the software.\n- Multilingual interface — English, Vietnamese, and Chinese, switchable at any time.\n- Modern Windows support — runs on the latest Windows releases, with no 32-bit dependency.",
+          "Ngoài việc giữ đủ tính năng của hệ thống cũ, phần mềm mới bổ sung:\n- Sao lưu dữ liệu — lịch sử cân và dữ liệu tồn kho được sao lưu, tránh mất mát.\n- Cài đặt cấu hình — các thông số hệ thống được điều chỉnh ngay trong phần mềm.\n- Đa ngôn ngữ — tiếng Anh, Việt, Trung, đổi bất cứ lúc nào.\n- Tương thích Windows mới — chạy trên các phiên bản Windows mới nhất, không còn phụ thuộc 32-bit."
+        ),
+      },
+    ],
+    techHighlights: [
+      {
+        feature: ls("PLC Data Acquisition", "Thu thập dữ liệu PLC"),
+        technical: ls(
+          "4 slave PLCs read bin sensors and weights; 1 master PLC aggregates and forwards to the server",
+          "4 PLC slave đọc cảm biến và trọng lượng thùng; 1 PLC master gom dữ liệu và gửi lên server"
+        ),
+        benefit: ls(
+          "Live status and weight for every bin",
+          "Nắm trạng thái và trọng lượng từng thùng theo thời gian thực"
+        ),
+      },
+      {
+        feature: ls("On-site Alerts", "Cảnh báo tại chỗ"),
+        technical: ls("Master PLC drives indicator lights and buzzer", "PLC master điều khiển đèn báo và còi"),
+        benefit: ls(
+          "Operators get instant feedback at the station",
+          "Công nhân nhận phản hồi ngay tại trạm cân"
+        ),
+      },
+      {
+        feature: ls("Application Rewrite", "Viết lại phần mềm"),
+        technical: ls("JavaScript application with a MySQL database", "Ứng dụng JavaScript, cơ sở dữ liệu MySQL"),
+        benefit: ls(
+          "Runs on the latest Windows; responses cut from 3 s to 1 s",
+          "Chạy trên Windows mới nhất; phản hồi từ 3s còn 1s"
+        ),
+      },
+      {
+        feature: ls("Scale Data Pipeline", "Luồng dữ liệu cân"),
+        technical: ls(
+          "Optimized path from scale reading to on-screen display",
+          "Tối ưu đường đi từ lúc đọc cân đến khi hiển thị"
+        ),
+        benefit: ls("Weights appear in 0.5 s instead of 2 s", "Số cân hiện lên trong 0.5s thay vì 2s"),
+      },
+      {
+        feature: ls("Backup & Configuration", "Sao lưu & cấu hình"),
+        technical: ls(
+          "Built-in data backup and configurable settings",
+          "Sao lưu dữ liệu và cài đặt cấu hình tích hợp sẵn"
+        ),
+        benefit: ls(
+          "Protected records and easier adjustments on site",
+          "Dữ liệu được bảo vệ, điều chỉnh tại chỗ dễ dàng"
+        ),
+      },
+      {
+        feature: ls("Multilingual UI", "Giao diện đa ngôn ngữ"),
+        technical: ls("English / Vietnamese / Chinese", "Anh / Việt / Trung"),
+        benefit: ls(
+          "Every user works in the language they read best",
+          "Mỗi người dùng làm việc bằng ngôn ngữ quen thuộc nhất"
+        ),
+      },
+    ],
+    ctaTitle: ls(
+      "Need to Modernize Legacy SCADA or Weighing Software?",
+      "Bạn cần hiện đại hóa phần mềm SCADA hoặc hệ thống cân cũ?"
+    ),
+    ctaDescription: ls(
+      "I can rewrite legacy industrial software on a modern stack — keeping the PLCs and workflow you already have, while making it faster, multilingual, and ready for current Windows.",
+      "Tôi có thể viết lại phần mềm công nghiệp cũ trên nền tảng hiện đại — giữ nguyên PLC và quy trình bạn đang có, nhưng nhanh hơn, đa ngôn ngữ và chạy tốt trên Windows mới."
+    ),
+  },
+  {
     id: "luca-iot-cloud",
     slug: "luca-iot-cloud",
     title: ls(

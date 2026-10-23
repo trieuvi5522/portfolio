@@ -61,7 +61,7 @@ src/
 │  ├─ pages/             # Shared page bodies (Home, Projects, Detail, About, Contact)
 │  └─ project/           # Case-study building blocks (sections, gallery, lightbox…)
 ├─ data/
-│  ├─ projects.ts        # ★ All 4 project case studies (bilingual)
+│  ├─ projects.ts        # ★ All project case studies (bilingual)
 │  ├─ site.ts            # Owner identity + contact links
 │  └─ types.ts           # Shared types + ls() helper
 ├─ i18n/
