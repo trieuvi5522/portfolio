@@ -36,7 +36,7 @@ export interface ProjectSection {
 }
 
 /** Icons available to result stat cards (drawn in components/project/ResultsList.astro) */
-export type ResultIcon = "trending-up" | "zap" | "scale" | "monitor" | "sparkles";
+export type ResultIcon = "trending-up" | "zap" | "scale" | "monitor";
 
 /** A headline result shown as a card: icon, figure and a short caption */
 export interface ResultStat {

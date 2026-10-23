@@ -30,6 +30,11 @@ const projectEntries: Project[] = [
         label: ls("Weighing-station productivity", "Hiệu suất khâu cân liệu"),
       },
       {
+        icon: "monitor",
+        value: "x32 → x64",
+        label: ls("Runs on the latest Windows", "Chạy trên Windows mới nhất"),
+      },
+      {
         icon: "zap",
         value: "3s → 1s",
         label: ls("Response to user actions", "Phản hồi thao tác"),
@@ -38,19 +43,6 @@ const projectEntries: Project[] = [
         icon: "scale",
         value: "2s → 0.5s",
         label: ls("Scale reading to screen", "Dữ liệu cân lên màn hình"),
-      },
-      {
-        icon: "monitor",
-        value: "x32 → x64",
-        label: ls("Runs on the latest Windows", "Chạy trên Windows mới nhất"),
-      },
-      {
-        icon: "sparkles",
-        value: "+3",
-        label: ls(
-          "New features: backup, settings, 3 languages",
-          "Tính năng mới: sao lưu, cấu hình, đa ngôn ngữ"
-        ),
       },
     ],
     sections: [
